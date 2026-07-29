@@ -1,0 +1,24 @@
+{
+  "rules": {
+    "visitors": {
+      ".read": true,
+      ".write": true
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth !== null && auth.uid === $uid",
+        ".write": "auth !== null && auth.uid === $uid"
+      }
+    },
+    "orders": {
+      ".read": "auth !== null",
+      "$orderId": {
+        ".write": "auth !== null && (newData.exists() ? newData.child('uid').val() === auth.uid : (data.child('uid').val() === auth.uid || root.child('admins').child(auth.uid).exists()))"
+      }
+    },
+    "admins": {
+      ".read": "auth !== null",
+      ".write": false
+    }
+  }
+}

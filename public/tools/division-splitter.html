@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEX Division Splitter - SAS VEX Robotics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111827'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
+    <style>
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #061A1C;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+            --border-color: #1E2C31;
+            --border-hover: #2d4048;
+            --shadow-sm: rgba(0,0,0,0.15) 0px 0px 0px 1px, rgba(255,255,255,0.03) 0px 1px 0px inset;
+            --shadow-md: rgba(0,0,0,0.15) 0px 0px 0px 1px, rgba(0,0,0,0.12) 0px 2px 2px, rgba(0,0,0,0.10) 0px 4px 4px, rgba(0,0,0,0.08) 0px 8px 8px, rgba(255,255,255,0.03) 0px 1px 0px inset;
+            --shadow-lg: rgba(0,0,0,0.35) 0px 25px 50px -12px;
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --transition-fast: 0.15s ease;
+            --transition-smooth: 0.3s ease;
+            --accent-1: #36F4A4;
+            --accent-2: #C1FBD4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-primary);
+            font-family: var(--font-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.25rem 2rem;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .byline {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Input Section */
+        .input-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-section label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            color: var(--text-primary);
+            resize: vertical;
+            transition: var(--transition-fast);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--text-primary);
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn-split {
+            display: block;
+            width: 100%;
+            max-width: 250px;
+            margin: 1.5rem auto 0;
+            padding: 0.875rem 1.75rem;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+            background: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-split:hover {
+            background: #374151;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Total Teams */
+        .total-teams {
+            display: none;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .total-teams.visible {
+            display: block;
+        }
+
+        .total-teams span {
+            color: var(--accent-1);
+        }
+
+        /* Divisions Container */
+        .divisions-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .division {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .division:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .division-1 {
+            border-left: 3px solid var(--accent-1);
+        }
+
+        .division-2 {
+            border-left: 3px solid var(--accent-2);
+        }
+
+        .division h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .division-1 h2 svg {
+            color: var(--accent-1);
+        }
+
+        .division-2 h2 svg {
+            color: var(--accent-2);
+        }
+
+        .team-count {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .team-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .team-list li {
+            background: var(--bg-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+        }
+
+        .division-1 .team-list li:hover {
+            background: rgba(78, 205, 196, 0.15);
+        }
+
+        .division-2 .team-list li:hover {
+            background: rgba(168, 85, 247, 0.15);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--text-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 6rem 1.25rem 3rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .divisions-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">SAS<span>VEX</span></a>
+            <a href="/competitions.html" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Tools
+            </a>
+        </div>
+    </nav>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p class="loading-text">Splitting teams...</p>
+    </div>
+
+    <div class="container">
+        <header>
+            <p class="byline">By Dan Honda</p>
+            <h1>VEX Division Splitter</h1>
+            <p class="subtitle">Tournament Team Assignment Tool</p>
+        </header>
+
+        <div class="input-section">
+            <label for="teams-input">Enter Team Numbers (one per line or comma-separated)</label>
+            <textarea id="teams-input" placeholder="Example:
+6546A
+6546B
+3632A
+..."></textarea>
+            <button class="btn-split" onclick="splitTeams()">Split into Divisions</button>
+        </div>
+
+        <div class="total-teams" id="total-teams"></div>
+
+        <div class="divisions-container">
+            <div class="division division-1">
+                <h2>
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    Division 1
+                    <span class="team-count" id="count-1">0 teams</span>
+                </h2>
+                <ul class="team-list" id="division-1">
+                    <li class="empty-state">No teams assigned yet</li>
+                </ul>
+            </div>
+
+            <div class="division division-2">
+                <h2>
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    Division 2
+                    <span class="team-count" id="count-2">0 teams</span>
+                </h2>
+                <ul class="team-list" id="division-2">
+                    <li class="empty-state">No teams assigned yet</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 SAS VEX Robotics. Made by Dan Honda.</p>
+    </footer>
+
+    <script>
+        const CONSTRAINTS = {
+            sameDivision: [['6546A', '3632A']],
+            differentDivision: [['6546A', '6546K']]
+        };
+
+        function parseTeams(input) {
+            return input
+                .split(/[\n,]+/)
+                .map(t => t.trim().toUpperCase())
+                .filter(t => t.length > 0);
+        }
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showLoading() {
+            document.getElementById('loading-overlay').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading-overlay').classList.remove('active');
+        }
+
+        function splitTeams() {
+            const input = document.getElementById('teams-input').value;
+            const teams = parseTeams(input);
+
+            if (teams.length === 0) {
+                alert('Please enter at least one team number.');
+                return;
+            }
+
+            showLoading();
+
+            setTimeout(() => {
+                const division1 = [];
+                const division2 = [];
+                const assigned = new Set();
+
+                // Handle same-division constraints
+                for (const pair of CONSTRAINTS.sameDivision) {
+                    const [teamA, teamB] = pair.map(t => t.toUpperCase());
+                    const hasA = teams.includes(teamA);
+                    const hasB = teams.includes(teamB);
+
+                    if (hasA || hasB) {
+                        const targetDiv = Math.random() < 0.5 ? division1 : division2;
+                        if (hasA && !assigned.has(teamA)) {
+                            targetDiv.push(teamA);
+                            assigned.add(teamA);
+                        }
+                        if (hasB && !assigned.has(teamB)) {
+                            targetDiv.push(teamB);
+                            assigned.add(teamB);
+                        }
+                    }
+                }
+
+                // Handle different-division constraints
+                for (const pair of CONSTRAINTS.differentDivision) {
+                    const [teamA, teamB] = pair.map(t => t.toUpperCase());
+                    const hasA = teams.includes(teamA);
+                    const hasB = teams.includes(teamB);
+
+                    if (hasA && !assigned.has(teamA)) {
+                        if (division1.includes(teamB)) {
+                            division2.push(teamA);
+                        } else if (division2.includes(teamB)) {
+                            division1.push(teamA);
+                        } else {
+                            (Math.random() < 0.5 ? division1 : division2).push(teamA);
+                        }
+                        assigned.add(teamA);
+                    }
+
+                    if (hasB && !assigned.has(teamB)) {
+                        if (division1.includes(teamA)) {
+                            division2.push(teamB);
+                        } else {
+                            division1.push(teamB);
+                        }
+                        assigned.add(teamB);
+                    }
+                }
+
+                // Assign remaining teams randomly but balanced
+                const remaining = shuffleArray(teams.filter(t => !assigned.has(t)));
+
+                for (const team of remaining) {
+                    if (division1.length < division2.length) {
+                        division1.push(team);
+                    } else if (division2.length < division1.length) {
+                        division2.push(team);
+                    } else {
+                        (Math.random() < 0.5 ? division1 : division2).push(team);
+                    }
+                }
+
+                // Show total teams
+                const totalTeamsEl = document.getElementById('total-teams');
+                totalTeamsEl.innerHTML = `Total Participating Teams: <span>${teams.length}</span>`;
+                totalTeamsEl.classList.add('visible');
+
+                // Render results
+                renderDivision('division-1', 'count-1', shuffleArray(division1));
+                renderDivision('division-2', 'count-2', shuffleArray(division2));
+
+                hideLoading();
+            }, 800);
+        }
+
+        function renderDivision(listId, countId, teams) {
+            const list = document.getElementById(listId);
+            const count = document.getElementById(countId);
+
+            count.textContent = `${teams.length} team${teams.length !== 1 ? 's' : ''}`;
+
+            if (teams.length === 0) {
+                list.innerHTML = '<li class="empty-state">No teams assigned</li>';
+                return;
+            }
+
+            list.innerHTML = teams
+                .map(team => `<li>${team}</li>`)
+                .join('');
+        }
+    </script>
+</body>
+</html>

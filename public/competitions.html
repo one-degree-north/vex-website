@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Competition Tools - SAS VEX Robotics</title>
+  <meta name="description" content="Competition tools for VEX Robotics tournaments.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111827'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">SAS<span>VEX</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cad.html">CAD</a></li>
+        <li><a href="mechanics.html">Mechanics</a></li>
+        <li><a href="programming.html">Programming</a></li>
+        <li><a href="competitions.html">Competition Tools</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth"></div>
+      <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header competition-header">
+    <h1><span class="gradient-text">Competition Tools</span></h1>
+    <p>Useful tools for VEX Robotics competitions and tournaments.</p>
+  </header>
+
+  <!-- Upcoming Events -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Upcoming Events</h2>
+      <p>Scrimmages, competitions, and important dates for the season.</p>
+    </div>
+    <div class="events-list" id="events-container">
+
+      <!-- ADD NEW EVENTS HERE — copy the block below and change the details -->
+
+      <div class="event-card">
+        <div class="event-date-block">
+          <span class="event-month">JUNE</span>
+          <span class="event-day">6</span>
+        </div>
+        <div class="event-details">
+          <h3 class="event-title">Blank's Beginnings</h3>
+          <p class="event-location">ACS Independent</p>
+        </div>
+        <span class="event-type-badge scrimmage">scrimmage</span>
+      </div>
+      <div class="event-card">
+        <div class="event-date-block">
+          <span class="event-month">OCT</span>
+          <span class="event-day">15</span>
+        </div>
+        <div class="event-details">
+          <h3 class="event-title">Spooky Robo Rumble</h3>
+          <p class="event-location">Singapore American School Gym 2</p>
+        </div>
+        <span class="event-type-badge scrimmage">scrimmage</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Tools Grid -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Available Tools</h2>
+    </div>
+    <div class="card-grid" id="tools-container">
+      <!-- Tools loaded dynamically from competitions.json -->
+      <div class="loading"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>SAS VEX Robotics</h3>
+        <p>Building the future, one robot at a time.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cad.html">CAD</a></li>
+          <li><a href="mechanics.html">Mechanics</a></li>
+          <li><a href="programming.html">Programming</a></li>
+          <li><a href="competitions.html">Competition Tools</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://www.vexrobotics.com" target="_blank">VEX Robotics</a></li>
+          <li><a href="https://www.robotevents.com" target="_blank">Robot Events</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 SAS VEX Robotics. Made by Dan Honda.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+  <script src="/js/content-loader.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      contentLoader.loadTools('tools-container');
+    });
+  </script>
+  <script type="module">
+    import { initAuthUI } from '/js/auth.js';
+    document.addEventListener('DOMContentLoaded', () => initAuthUI());
+  </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson - SAS VEX Robotics</title>
+  <meta name="description" content="Learn with SAS VEX Robotics.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111827'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">SAS<span>VEX</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cad.html">CAD</a></li>
+        <li><a href="mechanics.html">Mechanics</a></li>
+        <li><a href="programming.html">Programming</a></li>
+        <li><a href="competitions.html">Competitions</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth"></div>
+      <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Lesson Content -->
+  <div class="lesson-page">
+    <!-- Breadcrumb -->
+    <div class="lesson-breadcrumb">
+      <a href="#" id="back-link">← Back to lessons</a>
+    </div>
+
+    <!-- Lesson Header -->
+    <div class="lesson-header">
+      <span class="lesson-topic-name" id="topic-name">Loading...</span>
+      <h1 id="lesson-title">Loading...</h1>
+    </div>
+
+    <!-- Lesson Body -->
+    <div class="lesson-body" id="lesson-content">
+      <div class="loading"></div>
+    </div>
+
+    <!-- Quiz (added by lesson script if the lesson has one) -->
+    <div id="lesson-quiz" class="lesson-quiz"></div>
+
+    <!-- Progress note (updated by the progress script) -->
+    <p id="lesson-progress-note" class="lesson-progress-note"></p>
+
+    <!-- Lesson Navigation -->
+    <div class="lesson-nav">
+      <a href="#" class="lesson-nav-btn" id="prev-lesson" style="visibility: hidden;">← Previous</a>
+      <a href="#" class="lesson-nav-btn" id="next-lesson" style="visibility: hidden;">Next →</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>SAS VEX Robotics</h3>
+        <p></p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cad.html">CAD</a></li>
+          <li><a href="mechanics.html">Mechanics</a></li>
+          <li><a href="programming.html">Programming</a></li>
+          <li><a href="competitions.html">Competitions</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://www.vexrobotics.com" target="_blank">VEX Robotics</a></li>
+          <li><a href="https://www.robotevents.com" target="_blank">Robot Events</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 SAS VEX Robotics. Made by Dan Honda.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+  <script type="module">
+    import { initAuthUI } from '/js/auth.js';
+    document.addEventListener('DOMContentLoaded', () => initAuthUI());
+  </script>
+  <!-- Progress: completing the quiz marks the lesson done -->
+  <script type="module">
+    import { onUser, isLessonDoneCached, fetchCourseProgress, setLessonDone } from '/js/progress.js';
+
+    const params = new URLSearchParams(window.location.search);
+    const course = params.get('course') || 'cad';
+    const topic = params.get('topic');
+    const lesson = params.get('lesson');
+
+    const note = document.getElementById('lesson-progress-note');
+    let uid = null;
+    let done = false;
+
+    function showNote() {
+      if (!note) return;
+      if (done) {
+        note.textContent = '✓ You’ve completed this lesson';
+        note.className = 'lesson-progress-note done';
+      } else {
+        note.textContent = '';
+        note.className = 'lesson-progress-note';
+      }
+    }
+
+    onUser(async (user) => {
+      if (!user) { uid = null; done = false; showNote(); return; }
+      uid = user.uid;
+      done = isLessonDoneCached(course, topic, lesson); // optimistic
+      showNote();
+      const map = await fetchCourseProgress(uid, course);
+      done = !!(map[topic] && map[topic][lesson]); // reconcile
+      showNote();
+    });
+
+    // Passing the quiz automatically marks the lesson complete (saves progress).
+    document.addEventListener('quiz-passed', async (e) => {
+      if (done) return;
+      if (!uid) {
+        // Not signed in — nudge them so they know progress isn't being saved.
+        if (note) {
+          note.textContent = 'Sign in (top-right) to save your progress';
+          note.className = 'lesson-progress-note signin';
+        }
+        return;
+      }
+      done = true;
+      showNote();
+      try {
+        await setLessonDone(uid, e.detail.course, e.detail.topic, e.detail.lesson, true);
+      } catch (err) {
+        console.error('Could not save quiz progress:', err);
+      }
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      const course = params.get('course') || 'cad';
+      const topicId = params.get('topic');
+      const lessonId = params.get('lesson');
+
+      // Set back link
+      document.getElementById('back-link').href = `${course}.html`;
+
+      // Load course data
+      const response = await fetch(`/data/${course}.json`);
+      const data = await response.json();
+
+      // Find the topic and lesson
+      let currentTopic = null;
+      let currentLesson = null;
+      let lessonIndex = -1;
+      let allLessons = [];
+
+      // Build flat list of all lessons for navigation
+      data.topics.forEach(topic => {
+        topic.lessons.forEach((lesson, i) => {
+          allLessons.push({ topic, lesson, index: allLessons.length });
+          if (topic.id === topicId && lesson.id === lessonId) {
+            currentTopic = topic;
+            currentLesson = lesson;
+            lessonIndex = allLessons.length - 1;
+          }
+        });
+      });
+
+      if (!currentLesson) {
+        document.getElementById('lesson-content').innerHTML = '<p>Lesson not found.</p>';
+        return;
+      }
+
+      // Update page
+      document.title = `${currentLesson.title} - SAS VEX Robotics`;
+      document.getElementById('topic-name').textContent = currentTopic.title;
+      document.getElementById('lesson-title').textContent = currentLesson.title;
+
+      // Show content or placeholder
+      if (currentLesson.content) {
+        document.getElementById('lesson-content').innerHTML = currentLesson.content;
+      } else {
+        document.getElementById('lesson-content').innerHTML = `
+          <div class="lesson-empty">
+            <p>This lesson is coming soon.</p>
+          </div>
+        `;
+      }
+
+      // Render the quiz (if this lesson has one)
+      if (currentLesson.quiz) {
+        renderQuiz(currentLesson.quiz, course, currentTopic.id, currentLesson.id);
+      }
+
+      // Setup navigation
+      if (lessonIndex > 0) {
+        const prev = allLessons[lessonIndex - 1];
+        const prevBtn = document.getElementById('prev-lesson');
+        prevBtn.href = `lesson.html?course=${course}&topic=${prev.topic.id}&lesson=${prev.lesson.id}`;
+        prevBtn.style.visibility = 'visible';
+        prevBtn.textContent = `← ${prev.lesson.title}`;
+      }
+
+      if (lessonIndex < allLessons.length - 1) {
+        const next = allLessons[lessonIndex + 1];
+        const nextBtn = document.getElementById('next-lesson');
+        nextBtn.href = `lesson.html?course=${course}&topic=${next.topic.id}&lesson=${next.lesson.id}`;
+        nextBtn.style.visibility = 'visible';
+        nextBtn.textContent = `${next.lesson.title} →`;
+      }
+    });
+
+    // Builds the multiple-choice quiz card. On a correct answer it fires a
+    // "quiz-passed" event that the progress module listens for to save progress.
+    function renderQuiz(quiz, course, topic, lesson) {
+      const wrap = document.getElementById('lesson-quiz');
+      if (!wrap) return;
+      wrap.innerHTML = `
+        <div class="quiz-card">
+          <span class="quiz-badge">📝 Quick Quiz</span>
+          <h3 class="quiz-question"></h3>
+          <div class="quiz-options"></div>
+          <p class="quiz-feedback" id="quiz-feedback"></p>
+        </div>`;
+      // Set question as text (avoids any HTML injection from data)
+      wrap.querySelector('.quiz-question').textContent = quiz.question;
+      const optWrap = wrap.querySelector('.quiz-options');
+      quiz.options.forEach((opt, i) => {
+        const b = document.createElement('button');
+        b.className = 'quiz-option';
+        b.textContent = opt;
+        b.dataset.i = i;
+        optWrap.appendChild(b);
+      });
+      const feedback = wrap.querySelector('#quiz-feedback');
+      let answered = false;
+
+      optWrap.querySelectorAll('.quiz-option').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (answered) return;
+          answered = true;
+          const chosen = parseInt(btn.dataset.i, 10);
+          const correct = quiz.answer;
+          optWrap.querySelectorAll('.quiz-option').forEach((b, i) => {
+            b.disabled = true;
+            if (i === correct) b.classList.add('correct');
+            else if (i === chosen) b.classList.add('incorrect');
+          });
+          if (chosen === correct) {
+            feedback.className = 'quiz-feedback correct';
+            feedback.textContent = '✅ Correct! ' + quiz.explanation;
+            document.dispatchEvent(new CustomEvent('quiz-passed', {
+              detail: { course, topic, lesson }
+            }));
+          } else {
+            feedback.className = 'quiz-feedback incorrect';
+            feedback.textContent = '❌ Not quite. ' + quiz.explanation + ' ';
+            const retry = document.createElement('button');
+            retry.className = 'quiz-retry';
+            retry.textContent = 'Try again';
+            retry.addEventListener('click', () => renderQuiz(quiz, course, topic, lesson));
+            feedback.appendChild(retry);
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

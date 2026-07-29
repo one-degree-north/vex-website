@@ -1,0 +1,233 @@
+{
+  "topics": [
+    {
+      "id": "getting-started",
+      "title": "Getting Started",
+      "description": "",
+      "lessons": [
+        {
+          "id": "downloading-fusion",
+          "title": "Lesson 1: Downloading Fusion 360",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/Ks3jnsnSi8s\" frameborder=\"0\" allowfullscreen></iframe></div><p><strong>School Website:</strong> <a href=\"https://www.sas.edu.sg/\" target=\"_blank\">https://www.sas.edu.sg/</a></p><p><strong>School Address:</strong> 40 Woodlands Street 41, Singapore 738547</p>"
+        },
+        {
+          "id": "downloading-extension",
+          "title": "Lesson 2: Downloading Fusion 360 Extension",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/zCsTQxm9F8g\" frameborder=\"0\" allowfullscreen></iframe></div><hr><p><strong>VEX CAD Parts Library:</strong> <a href=\"https://www.vexforum.com/t/vex-cad-fusion-360-parts-library-release-log/83263\" target=\"_blank\">https://www.vexforum.com/t/vex-cad-fusion-360-parts-library-release-log/83263</a></p><p><strong>Contact:</strong> <a href=\"mailto:terami47503@sas.edu.sg\">terami47503@sas.edu.sg</a></p>"
+        },
+        {
+          "id": "basic-controls",
+          "title": "Lesson 3: Basic Controls in Fusion 360",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/jdYVYa1NsZw\" frameborder=\"0\" allowfullscreen></iframe></div><hr><h3>Additional Resource</h3><p>Here's another explanation of Fusion 360 controls:</p><div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/lDhIdi6rTu8\" frameborder=\"0\" allowfullscreen></iframe></div><hr><p><strong>Fusion 360 Keyboard Shortcuts:</strong> <a href=\"https://www.autodesk.com/shortcuts/fusion-360\" target=\"_blank\">https://www.autodesk.com/shortcuts/fusion-360</a></p>"
+        },
+        {
+          "id": "sas-library",
+          "title": "Lesson 4: Using the SAS Library",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/L1iBrTLZrio\" frameborder=\"0\" allowfullscreen></iframe></div>"
+        }
+      ]
+    },
+    {
+      "id": "first-cad",
+      "title": "First CAD",
+      "description": "",
+      "lessons": [
+        {
+          "id": "file-organization",
+          "title": "Lesson 1: Team File Organization and Parts Library",
+          "content": "<h2>Welcome to the CAD Setup Guide!</h2><p>This section will help you navigate your team folders and the VEX parts library to keep your designs organized and efficient.</p><hr><h3>Locating Your Team Folder</h3><p>To ensure your work is saved in the correct location, you must navigate through the year-specific directories.</p><ol><li><strong>Select the Year:</strong> Open the folder labeled <code>2026-27</code>.</li><li><strong>Find Your Team:</strong> Within that folder, look for your specific team number, such as <strong>6546A</strong>, <strong>6546B</strong>, or <strong>6546C</strong>.</li><li><strong>Save Your Work:</strong> Use your designated team folder to organize all of your CAD files throughout the season.</li></ol><img src=\"../images/cad/team-file.png\" alt=\"Team File Organization\" style=\"width:100%;max-width:800px;border-radius:8px;margin:16px 0;\"><hr><h3>Navigating the VEX EDR Parts Library</h3><p>Most of your robot's components will be found in the <strong>VEX EDR Parts V3 Library</strong>.</p><h4>Library Categories</h4><p>The library is broken down into several functional categories to help you find parts quickly:</p><ul><li><strong>Electronics:</strong> Motors, sensors, and brains.</li><li><strong>Motion:</strong> Wheels, gears, and sprockets.</li><li><strong>Screws, Nuts, Standoffs:</strong> Essential fasteners.</li><li><strong>Shafts, Spacers, Bearings:</strong> For all rotating assemblies.</li><li><strong>Structure:</strong> The frame and body components of your robot.</li></ul><h4>Working with Structure</h4><p>Inside the Structure folder, we primarily focus on <strong>Aluminum</strong> components because they are the most common parts used in VEX building.</p><ul><li><strong>Common Pieces:</strong> You will frequently use Aluminum 1x1 Angles, 2x2 Angles, and Half-C channels.</li><li><strong>Core Components:</strong> Pay close attention to the <strong>2x C-Channel</strong> and <strong>3x C-Channel</strong> options, as these are the \"backbone\" of most robot designs.</li></ul><img src=\"../images/cad/parts-library.png\" alt=\"VEX Parts Library - Structure\" style=\"width:100%;max-width:800px;border-radius:8px;margin:16px 0;\">",
+          "quiz": {
+            "question": "When saving your CAD work, where should you navigate first?",
+            "options": [
+              "Any empty folder on the desktop",
+              "The year folder (e.g. 2026-27), then your team number",
+              "The Electronics category of the parts library",
+              "Straight into the VEX EDR Parts V3 Library"
+            ],
+            "answer": 1,
+            "explanation": "Go to the year folder (like 2026-27) first, then your team number (e.g. 6546A) so every file stays organized in the right place."
+          }
+        },
+        {
+          "id": "creating-file",
+          "title": "Lesson 2: Creating Your Own File",
+          "content": "<h2>How to Save a Design in Fusion 360</h2><p>Saving your work properly keeps your designs organized and accessible from anywhere in the cloud.</p><hr><h3>Step 1: Check if your file is already named</h3><p>Look at the <strong>top-left corner</strong> of Fusion 360.</p><p>If it says <strong><em>\"Untitled\"</em></strong>, you need to save it first.</p><hr><h3>Step 2: Click the Save button</h3><p>Click the Save icon in the top toolbar, OR press:</p><ul><li><strong>Mac:</strong> <code>Cmd + S</code></li><li><strong>Windows:</strong> <code>Ctrl + S</code></li></ul><img src=\"../images/cad/save-step1.png\" alt=\"Save button tooltip in Fusion 360\" style=\"width:100%;max-width:800px;border-radius:8px;margin:16px 0;\"><hr><h3>Step 3: Name your design</h3><p>A pop-up will appear. Type a clear name (e.g., <em>Robot Arm V1</em>).</p><hr><h3>Step 4: Choose where to save</h3><p>Select the correct <strong>Project folder</strong>:</p><pre><code>VEX &rarr; 2026-27 &rarr; Team Number</code></pre><p>First, navigate to the <strong>2026-27</strong> year folder:</p><img src=\"../images/cad/save-step2.png\" alt=\"Selecting 2026-27 folder\" style=\"width:100%;max-width:800px;border-radius:8px;margin:16px 0;\"><p>Then, select your team folder (<strong>6546A</strong>, <strong>6546B</strong>, or <strong>6546C</strong>) and click Save:</p><img src=\"../images/cad/save-step3.png\" alt=\"Selecting team folder and saving\" style=\"width:100%;max-width:800px;border-radius:8px;margin:16px 0;\"><hr><h3>Step 5: Click \"Save\"</h3><p>Hit Save. Your design is now stored in the cloud.</p><hr><h3>After First Save (Important!)</h3><p>Fusion 360 auto-saves as you work, BUT you should still press Save regularly after big changes.</p><hr><h3>Common Mistakes to Avoid</h3><ul><li>Forgetting to name your file &rarr; hard to find later</li><li>Not selecting the right project folder</li><li>Assuming local save &rarr; Fusion 360 is cloud-based</li></ul>",
+          "quiz": {
+            "question": "How can you tell a Fusion 360 design still needs to be saved for the first time?",
+            "options": [
+              "The screen turns red",
+              "The parts turn gray",
+              "The top-left corner says “Untitled”",
+              "Fusion 360 closes automatically"
+            ],
+            "answer": 2,
+            "explanation": "If the top-left corner shows “Untitled,” the file hasn't been named yet. Hit Save (Cmd+S / Ctrl+S), name it clearly, and pick your team folder."
+          }
+        },
+        {
+          "id": "component-features",
+          "title": "Lesson 3: Component Features",
+          "content": "<h2>Fusion 360 Assembly Basics</h2><div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/DuNy3ucMNSc\" frameborder=\"0\" allowfullscreen></iframe></div><hr><h3>Save First</h3><p>Always save your hybrid design before starting.</p><hr><h3>First Component</h3><p>Make sure your first component is <strong>NOT anchored</strong>. You want it free to move.</p><hr><h2>Modifying Parts</h2><h3>Modify Tool</h3><p>Use the Modify tool to change the length of:</p><ul><li>C-channels</li><li>Standoffs</li><li>Axles</li><li>Spacers</li></ul><h3>Copy &amp; Paste</h3><ul><li><strong>Use</strong> if parts are the same length.</li><li><strong>Avoid</strong> if parts need different lengths &mdash; changing one changes ALL copies.</li></ul><h3>Different sizes needed?</h3><p>Insert a new component from the library.</p><hr><h2>Connecting Components</h2><h3>Point-to-Point (MOST USED)</h3><ul><li>Connects multiple components</li><li>Keeps same orientation</li><li><strong>Best for drivebase</strong></li></ul><h3>Align Tool</h3><p>Works on one component only. Changes orientation to match target.</p><h3>Free Move</h3><p>Rotate and move parts manually. Good for rough positioning.</p><hr><h2>Mirroring</h2><h3>Mirror Tool</h3><p>Duplicates across a plane. Great for symmetrical designs (like drivebases).</p><h3>Limitations</h3><p><strong>Does NOT work on:</strong></p><ul><li>C-channels</li><li>Spacers</li><li>Standoffs</li></ul><p><strong>Works on:</strong></p><ul><li>Gears</li><li>Motors</li><li>Wheels</li></ul>",
+          "quiz": {
+            "question": "Which connection method is recommended for a drivebase because it connects multiple components while keeping the same orientation?",
+            "options": [
+              "Align",
+              "Free Move",
+              "Copy & Paste",
+              "Point-to-Point"
+            ],
+            "answer": 3,
+            "explanation": "Point-to-Point is the go-to joint for drivebases — it connects multiple components and keeps their orientation. Align only works on one component and changes its orientation."
+          }
+        },
+        {
+          "id": "types-of-parts",
+          "title": "Lesson 4: Types of Parts",
+          "content": "<h2>Types of Parts</h2><p>Understanding the different types of VEX parts is essential for designing your robot. The Purdue Sigbots Wiki has an excellent breakdown of all the parts you'll encounter.</p><p><strong>Start from the \"Structure\" page and read through to \"Flex Wheels\"</strong> to get a comprehensive overview of the parts available to you.</p><p><a href=\"https://wiki.purduesigbots.com/hardware/misc.-vex-parts-1/structure\" target=\"_blank\" style=\"display:inline-block;padding:10px 20px;background-color:#2e7d32;color:white;text-decoration:none;border-radius:6px;font-weight:bold;margin:12px 0;\">Purdue Sigbots Wiki - VEX Parts Guide</a></p>"
+        },
+        {
+          "id": "sample-gearbox",
+          "title": "Lesson 5: Sample Gear Box",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/VLJdbypMbXM\" frameborder=\"0\" allowfullscreen></iframe></div><hr><h2>Materials Used in this Video</h2><h3>Structural Components</h3><ul><li><strong>2x C-Chan Alu:</strong> Two aluminum C-Channels, which serve as the main structural frame to support the gear and wheel assembly.</li><li><strong>4x Standoff:</strong> Rigid metal spacers used to securely connect and maintain a fixed distance between the two parallel C-Channels.</li></ul><h3>Motion &amp; Rotation Components</h3><ul><li><strong>1x LS Shaft:</strong> A low-strength (standard square) drive shaft that holds the wheel and rotating components.</li><li><strong>2x Bearing Flat, Pillow:</strong> Two flat bearing blocks mounted directly to the C-Channels. These support the shaft, allowing it to spin smoothly with minimal friction.</li></ul><h3>Wheel &amp; Spacing Components</h3><ul><li><strong>1x 3.25 Omni Wheel:</strong> A specialized robotics wheel with small rollers around its circumference, allowing for multi-directional movement.</li><li><strong>1x LS Shaft Collar:</strong> A locking collar tightened onto the square shaft to prevent it from sliding out of place horizontally.</li><li><strong>Multiple Spacers (Nylon), .375 OD:</strong> Multiple high-durability nylon spacers (with a .375 outer diameter) placed along the shaft to properly align the wheel and prevent it from rubbing against the structural metal.</li></ul>",
+          "quiz": {
+            "question": "In the sample gear box, what is the job of the flat pillow bearings mounted to the C-channels?",
+            "options": [
+              "To add weight to the robot",
+              "To support the shaft so it spins smoothly with minimal friction",
+              "To store code",
+              "To power the wheel directly"
+            ],
+            "answer": 1,
+            "explanation": "Bearings support the drive shaft and let it spin with minimal friction. A shaft collar keeps the shaft from sliding out sideways."
+          }
+        }
+      ]
+    },
+    {
+      "id": "first-drivebase",
+      "title": "First Drivebase",
+      "description": "",
+      "lessons": [
+        {
+          "id": "gear-ratio",
+          "title": "Lesson 1: Gear Ratio",
+          "content": "<h2>Mastering Gear Ratios</h2><p>Gear ratios are one of the most critical design decisions a robotics team must master to optimize the mechanical advantage of their subsystems.</p><h3>What is a Gear Ratio?</h3><p>At its core, a gear ratio is the relationship between the rotational speed and force of two or more interlocking (meshing) gears. It compares the <strong>input</strong> (the gear attached to the motor) to the <strong>output</strong> (the gear attached to the wheel, arm, or intake).</p><p>Because gear teeth are evenly spaced, a gear's diameter is directly proportional to its number of teeth. This allows us to calculate gear ratios simply by counting the teeth:</p><div style=\"background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0;text-align:center;color:var(--text-primary);\"><strong>Gear Ratio</strong> = <span style=\"display:inline-block;text-align:center;vertical-align:middle;margin:0 0.25rem;\"><span style=\"display:block;border-bottom:1px solid var(--text-secondary);padding:0 0.5rem;\">Teeth on Driven Gear (Output)</span><span style=\"display:block;padding:0 0.5rem;\">Teeth on Driving Gear (Input)</span></span> = Driven : Driving</div><blockquote><p>💡 <strong>VEX Example:</strong> If a small <strong>12-tooth driving gear</strong> (connected to a motor) turns a larger <strong>36-tooth driven gear</strong>, the calculation is 36 &divide; 12, which simplifies to a <strong>3:1 gear ratio</strong>.</p></blockquote><h3>The Trade-Off: Speed vs. Torque</h3><p>The main benefit of changing gear ratios is the ability to customize a mechanism for either <strong>Speed</strong> or <strong>Torque (rotational force)</strong>. However, these two traits have an <strong>inverse relationship</strong> &mdash; you cannot increase one without decreasing the other.</p><h3>1. Geared for Torque (Mechanical Advantage)</h3><ul><li><strong>Setup:</strong> A smaller gear drives a larger gear (e.g., 12-tooth driving a 36-tooth).</li><li><strong>The Result:</strong> The output shaft has <strong>3x the torque</strong>, but only <strong>1/3 of the speed</strong>.</li><li><strong>Best used for:</strong> Lifting heavy robot arms, closing high-pressure claws, or building high-traction drivetrains designed to push other robots.</li></ul><h3>2. Geared for Speed</h3><ul><li><strong>Setup:</strong> A larger gear drives a smaller gear (e.g., 36-tooth driving a 12-tooth).</li><li><strong>The Result:</strong> The output shaft has <strong>3x the speed</strong>, but only <strong>1/3 of the torque</strong>.</li><li><strong>Best used for:</strong> Intakes that need to grab objects quickly or high-speed flywheels for launching game elements.</li></ul><hr><p><a href=\"https://docs.google.com/presentation/d/152nXXoik5VDypGG5WK6CROa4i4ll8qPsqi78pPyqrpI/edit?slide=id.g3884d3779b1_0_52#slide=id.g3884d3779b1_0_52\" target=\"_blank\" style=\"display:inline-block;padding:10px 20px;background-color:#2e7d32;color:white;text-decoration:none;border-radius:6px;font-weight:bold;margin:12px 0;\">📙 [Advanced] VEX Mechanical Lessons Day 1</a></p>",
+          "quiz": {
+            "question": "A 12-tooth driving gear (on the motor) turns a 36-tooth driven gear. What is the gear ratio?",
+            "options": [
+              "1:3",
+              "12:36 (can't simplify)",
+              "3:1",
+              "2:1"
+            ],
+            "answer": 2,
+            "explanation": "Gear ratio = driven teeth ÷ driving teeth = 36 ÷ 12 = 3:1. A larger driven gear gives more torque but less speed."
+          }
+        },
+        {
+          "id": "drivetrain-types",
+          "title": "Lesson 2: Drivetrain Types",
+          "content": "<h2>Drivetrain Types</h2><p>VEX drivetrains come in many flavors. The Purdue SIGBots Wiki has a great overview &mdash; give it a read:</p><p><a href=\"https://wiki.purduesigbots.com/hardware/vex-drivetrains\" target=\"_blank\" style=\"display:inline-block;padding:10px 20px;background-color:#2e7d32;color:white;text-decoration:none;border-radius:6px;font-weight:bold;margin:12px 0;\">📖 Drivetrains | Purdue SIGBots Wiki</a></p><hr><h3>Summary of the Drivetrains Overview</h3><ul><li><strong>Definition:</strong> VEX drivetrains are assemblies &mdash; typically made of wheels &mdash; used by robots to navigate and traverse the VRC (VEX Robotics Competition) field.</li><li><strong>Trade-offs:</strong> Every drivetrain style comes with its own unique set of advantages and disadvantages depending on the game's requirements.</li></ul><h3>The 4 Most Common Types</h3><ol><li><strong>Tank Drive</strong></li><li><strong>Mecanum Drive</strong></li><li><strong>X-Drive</strong></li><li><strong>H-Drive</strong></li></ol>",
+          "quiz": {
+            "question": "Which of these is NOT one of the four most common VEX drivetrain types?",
+            "options": [
+              "Tank Drive",
+              "X-Drive",
+              "Mecanum Drive",
+              "Helicopter Drive"
+            ],
+            "answer": 3,
+            "explanation": "The four common types are Tank, Mecanum, X-Drive, and H-Drive. “Helicopter Drive” isn't a thing!"
+          }
+        },
+        {
+          "id": "example-drivetrain",
+          "title": "Lesson 3: Example Drivetrain",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/BZRKYlxwKkc\" frameborder=\"0\" allowfullscreen></iframe></div><hr><h2>🟩 What TO Include in the CAD</h2><p>These are the essential structural and mechanical components that define the physical footprint, geometry, and spacing of your drivetrain:</p><ul><li><strong>Chassis Structure:</strong> All aluminum C-channels and angles that make up the primary frame.</li><li><strong>Wheels:</strong> The exact wheel types (e.g., 2.75 AS Omni wheels) positioned precisely to determine ground clearance and track width.</li><li><strong>Motors:</strong> The motor cartridges and housings to ensure there is physical clearance for them and they don't collide with the frame.</li><li><strong>Gears:</strong> The main driving and driven gears (e.g., 48T HS Gear) along with their specific high-strength center inserts to establish exact gear spacing and center-to-center distances.</li></ul><hr><h2>🟥 What NOT to Include in the CAD</h2><p>These items are intentionally omitted to keep your assembly file lightweight, prevent software lag in Autodesk Inventor, and avoid cluttering your browser tree with hundreds of unnecessary constraints:</p><ul><li><strong>Fasteners (Screws, Nuts, &amp; Rivets):</strong> Typically omitted at this stage. Including every single nut and bolt adds massive computational overhead for zero design benefit.</li><li><strong>Wiring &amp; Electronics Cables:</strong> Omitted because flexible wires do not affect physical spacing or structural integrity.</li><li><strong>Flexible Materials:</strong> Rubber bands, latex tubing, and pneumatic lines are excluded because they are difficult to model statically and are better managed during the physical build.</li></ul><hr><h2>🟧 Optional</h2><ul><li><strong>Shaft Collars &amp; Spacers: Not necessary.</strong> Do not waste time constraining every plastic spacer or metal shaft collar, as they do not alter the main structural layout.</li><li><strong>Screw Joints</strong></li></ul>",
+          "quiz": {
+            "question": "Which parts should you always include when CADing a drivetrain?",
+            "options": [
+              "C-channels, wheels, motors, and gears",
+              "Every single screw, nut, and rivet",
+              "All the wiring and rubber bands",
+              "Nothing — leave it empty"
+            ],
+            "answer": 0,
+            "explanation": "Include the structural parts that define spacing and geometry (C-channels, wheels, motors, gears). Skip fasteners, wiring, and flexible parts to keep the file light."
+          }
+        },
+        {
+          "id": "first-drivebase-build",
+          "title": "Lesson 4: Building Your First Drivebase",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/cFQgYQgDVHY\" frameborder=\"0\" allowfullscreen></iframe></div>\n<hr>\n<h2>Your First Drivebase</h2>\n<p>Watch the walkthrough above, then build along. This is the example drivebase referenced in the team's video lesson plan file &mdash; and <strong>other drivebase examples are available in that same file</strong> if you want to compare options.</p>\n<hr>\n<h2>🧩 Parts You Will Need</h2>\n<p>To CAD this drivebase, grab the following parts from the library:</p>\n<ul>\n  <li><strong>C-Channels</strong> &mdash; the aluminum frame that everything mounts to</li>\n  <li><strong>Wheels</strong> &mdash; what your robot rolls on</li>\n  <li><strong>Gears</strong> &mdash; to transfer power from the motors to the wheels</li>\n  <li><strong>Motors</strong> &mdash; the V5 motors that drive the gears</li>\n  <li><strong>Standoffs</strong> &mdash; to space and connect channels structurally</li>\n  <li><strong>Spacers</strong> &mdash; to position parts correctly along the shafts</li>\n</ul>\n<hr>\n<h2>⏱️ Keep It Simple &mdash; Save Time</h2>\n<p>You do <strong>not</strong> have to add every shaft collar or fuss over exact spacing in the CAD. <strong>The mechanical team will figure that out during the physical build.</strong></p>\n<p>The goal here is to lay out the core structure quickly so the team can <strong>focus more on scoring mechanisms</strong> &mdash; that's where matches are won. A drivebase just needs to be solid and roll well; don't burn hours constraining tiny plastic spacers.</p>\n<table class=\"info-table\">\n  <tr><th>✅ Worth CADing</th><th>⏭️ Skip for now</th></tr>\n  <tr><td>C-channels (the frame)</td><td>Every shaft collar</td></tr>\n  <tr><td>Wheels in their real positions</td><td>Exact spacer-by-spacer spacing</td></tr>\n  <tr><td>Motors &amp; gears (for clearance &amp; spacing)</td><td>Screws, nuts, and rivets</td></tr>\n  <tr><td>Standoffs that define structure</td><td>Wires and rubber bands</td></tr>\n</table>\n<hr>\n<h2>Recap</h2>\n<ul>\n  <li>Gather: <strong>C-channels, wheels, gears, motors, standoffs, spacers.</strong></li>\n  <li>Don't sweat shaft collars and precise spacing &mdash; the mechanical team handles that on the real robot.</li>\n  <li>Build fast so the team can spend its energy on <strong>scoring</strong>.</li>\n  <li>This example, plus <strong>other drivebase examples</strong>, lives in the video lesson plan file.</li>\n</ul>",
+          "quiz": {
+            "question": "According to this lesson, what should you NOT waste time on when CADing your first drivebase?",
+            "options": [
+              "The C-channel frame",
+              "Every shaft collar and exact spacing — the mechanical team figures that out",
+              "Placing the wheels",
+              "Adding the motors"
+            ],
+            "answer": 1,
+            "explanation": "Don't fuss over every shaft collar or exact spacing — the mechanical team sorts that out on the real build. Lay out the core structure fast so the team can focus on scoring."
+          }
+        }
+      ]
+    },
+    {
+      "id": "robot-skeleton",
+      "title": "Robot Skeleton",
+      "description": "",
+      "lessons": [
+        {
+          "id": "triangle-bracing",
+          "title": "Lesson 1: Triangle Bracing",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/kA13VzYSl4A\" frameborder=\"0\" allowfullscreen></iframe></div><hr><h2>Why It Is Important</h2><ul><li><strong>Eliminates Mechanical Slop:</strong> Even if you tighten screws and nuts perfectly, the slight tolerances (wiggle room) in structural metal holes will cause a chassis to warp over time. A diagonal brace locks the geometry in place.</li><li><strong>Distributes Stress Evenly:</strong> When a force is applied to one corner of a robot (for example, hitting a wall or lifting a heavy game element), a triangle brace redirects that pushing or pulling force along the axis of the diagonal beam, spreading the load throughout the entire chassis rather than concentrating it on a single weak joint.</li><li><strong>Prevents High-Torque Warping:</strong> High-torque subsystems &mdash; like a heavy lifting arm or a high-velocity flywheel &mdash; exert massive counter-forces on the robot's base. Without triangular support, the frame can twist, causing gears to misalign, axles to bind, and motors to stall.</li></ul><hr><h2>Why People Should Use It in Robotics</h2><ul><li><strong>Drastically Increases Build Reliability:</strong> A robot built with triangle bracing will maintain its square alignment throughout a long tournament. This means your autonomous routines will be more consistent because the chassis isn't slightly warping between matches.</li><li><strong>Saves Weight Compared to \"Over-building\":</strong> Instead of adding multiple heavy layers of thick metal channels to make a robot rigid, a single, strategically placed diagonal gusset or thin bar creates the same structural integrity at a fraction of the weight.</li></ul>",
+          "quiz": {
+            "question": "Why is triangle (diagonal) bracing important on a robot chassis?",
+            "options": [
+              "It makes the robot heavier on purpose",
+              "It replaces the need for motors",
+              "It locks the geometry in place and stops the frame from warping or twisting",
+              "It only makes the robot look cooler"
+            ],
+            "answer": 2,
+            "explanation": "A diagonal brace turns a wobbly rectangle into rigid triangles, removing slop and preventing high-torque warping that would misalign gears and axles."
+          }
+        },
+        {
+          "id": "weight-saving",
+          "title": "Lesson 2: Weight Saving",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/x5ZK9ZZKwxk\" frameborder=\"0\" allowfullscreen></iframe></div><hr><h2>1. Material Selection</h2><ul><li><strong>Aluminum over Steel:</strong> Replace all steel C-channels and plates with their aluminum counterparts, which are significantly lighter.</li><li><strong>NEVER USE STEEL</strong></li><li><strong>Polycarbonate/Lexan:</strong> Use polycarbonate panels for non-load-bearing parts. You can use the \"Voronoi\" technique (cutting geometric triangles out of plastic sheets) to remove excess weight while maintaining structural rigidity. <span class=\"ref-links\">[<a href=\"https://www.instagram.com/reel/DJ2SPcqBUlU/\" target=\"_blank\">1</a>, <a href=\"https://www.instagram.com/funrecf/reel/DWkJlBpCuP6/?hl=ta\" target=\"_blank\">2</a>, <a href=\"https://www.vexforum.com/t/tips-for-light-weight-builds/113360\" target=\"_blank\">3</a>]</span></li></ul><h2>2. Fastener Optimization</h2><ul><li><strong>Nylon Hardware:</strong> Swap heavy steel nuts for nylon locking nuts where load-bearing is minimal.</li><li><strong>Zip Ties:</strong> In areas experiencing only tensile forces (not compression or torsion), use zip ties instead of metal C-channels.</li><li><strong>Shorter Bolts:</strong> Cut down long bolts or use the shortest screw possible to avoid extra metal protruding.</li><li><strong>Thumb Screws:</strong> Use legal thumb screws (the only legal nylon screw) where applicable. <span class=\"ref-links\">[<a href=\"https://www.vexforum.com/t/extreme-measures-to-lose-weight/24307\" target=\"_blank\">1</a>, <a href=\"https://www.vexforum.com/t/tips-for-light-weight-builds/113360\" target=\"_blank\">2</a>]</span></li></ul><h2>3. Structural Design</h2><ul><li><strong>Minimize Profiles:</strong> Replace 3-wide or 5-wide C-channel with lighter 2-wide C-channel.</li><li><strong>Half-Cuts:</strong> Utilize half-cut C-channel for sections that don't need full-length metal. Use standoffs to make up for the required space.</li><li><strong>Trussing:</strong> Drill patterns of holes in larger pieces of metal (without compromising structural integrity) to remove excess mass. <span class=\"ref-links\">[<a href=\"https://www.vexforum.com/t/tips-for-light-weight-builds/113360\" target=\"_blank\">1</a>]</span></li></ul><h2>4. Motion &amp; Drivetrain</h2><ul><li><strong>Shafts vs. Collars:</strong> Use standoffs and locking collars made of aluminum.</li><li><strong>Wheel Choice:</strong> Opt for smaller and lighter wheels, like 2.75\" omni wheels, rather than heavier alternatives.</li><li><strong>Limit Drivetrain Weight:</strong> The drivetrain is the last place you should cut weight. Keep heavy motors and structural metal at the base to maintain a low center of gravity. <span class=\"ref-links\">[<a href=\"https://www.chiefdelphi.com/t/how-does-your-team-reduce-weight-on-your-robot/386347\" target=\"_blank\">1</a>, <a href=\"https://www.vexforum.com/t/tips-for-light-weight-builds/113360\" target=\"_blank\">2</a>, <a href=\"https://www.vexforum.com/t/extreme-measures-to-lose-weight/24307\" target=\"_blank\">3</a>]</span></li></ul>",
+          "quiz": {
+            "question": "Which material should you use for C-channels to save weight?",
+            "options": [
+              "Steel — it's the lightest",
+              "Solid lead",
+              "It doesn't matter",
+              "Aluminum — never use steel"
+            ],
+            "answer": 3,
+            "explanation": "Aluminum is far lighter than steel — the lesson says NEVER use steel. Polycarbonate/Lexan is great for non-load-bearing parts too."
+          }
+        },
+        {
+          "id": "c-vs-l-channels",
+          "title": "Lesson 3: C Channels vs L Channels",
+          "content": "<div class=\"video-container\"><iframe width=\"100%\" height=\"400\" src=\"https://www.youtube.com/embed/LqZKWAq1P9k\" frameborder=\"0\" allowfullscreen></iframe></div><hr><table class=\"info-table\"><tr><th>Channel Type</th><th>Relative Weight</th><th>Torsional (Twist) Resistance</th><th>Primary Use Case</th></tr><tr><td><strong>C-Channel</strong></td><td>Heavy</td><td>Excellent</td><td>Main chassis rails, lift arms, heavy load-bearing frames.</td></tr><tr><td><strong>Thick L-Channel</strong></td><td>Medium</td><td>Moderate</td><td>High-torque joint reinforcement, compact high-stress bracing.</td></tr><tr><td><strong>Normal L-Channel</strong></td><td>Light</td><td>Low</td><td>Light corner ties, sensor mounts, intake guides.</td></tr></table><h2>1. C-Channels vs. L-Channels</h2><ul><li><strong>C-Channels:</strong> These have a flat back (web) and two side flanges, forming a \"C\" or \"U\" shape. They offer the highest structural strength and excellent resistance to both bending and twisting (torsional stress). They are the go-to choice for robot chassis frames, lift towers, and heavy-duty mechanisms.</li><li><strong>L-Channels (Angles):</strong> These have only two legs meeting at a 90-degree angle. They lack the second side flange of a C-channel, making them much lighter and more compact. They are primarily used for cross-bracing, intake structures, or guard rails where saving space and weight is critical.</li></ul><h2>2. L-Channels Comparison</h2><h3>Normal (Standard) L-Channel</h3><ul><li><strong>Weight:</strong> Very lightweight, helping keep the robot's center of gravity low or reducing the load on motorized joints.</li><li><strong>Flexibility:</strong> It has a tendency to flex or twist if placed under heavy structural stress, high torque, or impacts from other robots.</li><li><strong>Best Used For:</strong> Low-stress components, alignment guides, mounting sensors, or acting as simple structural ties.</li></ul><h3>Thick L-Channel</h3><ul><li><strong>Strength &amp; Durability:</strong> Provides significantly higher resistance to bending, shearing, and hole-deformation (where screws wallow out the metal holes under high stress).</li><li><strong>Weight Penalty:</strong> Heavier than the normal version, meaning it should be used strategically to avoid making a mechanism sluggish.</li><li><strong>Best Used For:</strong> High-stress pivot points, cross-braces directly subjected to motor torque, or external bumpers meant to absorb heavy impacts.</li></ul>",
+          "quiz": {
+            "question": "Compared to an L-channel, a C-channel is generally…",
+            "options": [
+              "Heavier, but with excellent resistance to bending and twisting",
+              "Lighter and weaker",
+              "Only useful for sensor mounts",
+              "Illegal in VEX"
+            ],
+            "answer": 0,
+            "explanation": "A C-channel's flat back plus two flanges give the highest strength and torsional resistance — great for chassis rails and lift arms. L-channels are lighter but weaker, used for bracing and mounts."
+          }
+        }
+      ]
+    }
+  ]
+}

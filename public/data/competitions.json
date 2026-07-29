@@ -1,0 +1,25 @@
+{
+  "tools": [
+    {
+      "id": "division-splitter",
+      "name": "VEX Division Splitter",
+      "description": "Tournament team assignment tool that splits teams into balanced divisions with constraint support.",
+      "url": "/tools/division-splitter.html",
+      "icon": "split"
+    },
+    {
+      "id": "teamlist-generator",
+      "name": "Team List Generator",
+      "description": "Create and export team lists in CSV format compatible with VEX Tournament Manager.",
+      "url": "/tools/teamlist-generator.html",
+      "icon": "list"
+    },
+    {
+      "id": "tournament-help",
+      "name": "Running Tournaments Help",
+      "description": "A guide to running VEX Robotics competitions based on real tournament experience.",
+      "url": "/tools/tournament-help.html",
+      "icon": "help"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "topics": [
+    {
+      "id": "building-tips",
+      "title": "Building Tips",
+      "description": "Short videos from our mechanics team with useful tips for building your robot.",
+      "lessons": [
+        {
+          "id": "intro",
+          "title": "Building Tip Videos — Coming Soon!",
+          "description": "Our mechanics team is recording useful building tips.",
+          "content": "<h2>Building Tip Videos — Coming Soon! 🔧</h2><p>Our mechanics team is putting together short, practical videos of tips we've learned from building competition robots &mdash; things like bracing, spacing, gear meshing, cutting clean C-channel, and wiring tidily.</p><p>Check back here soon. In the meantime, if you're stuck on a build, grab a mechanics lead and ask &mdash; that's the fastest way to learn.</p>"
+        }
+      ]
+    }
+  ]
+}

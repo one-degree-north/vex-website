@@ -1,0 +1,36 @@
+# ---- OS / editor junk ----
+.DS_Store
+Thumbs.db
+*.log
+
+# ---- Firebase local cache & debug logs ----
+.firebase/
+firebase-debug.log
+database-debug.log
+ui-debug.log
+
+# ---- Node (only if it ever gets added) ----
+node_modules/
+
+# ---- SECRETS — never commit these ----
+# Service-account private keys give full admin access and bypass all security
+# rules. They belong in GitHub Secrets, not in the repo.
+*serviceAccount*.json
+*service-account*.json
+*-adminsdk-*.json
+serviceAccountKey*.json
+.env
+.env.*
+
+# ---- Source / personal files kept locally, NOT part of the published site ----
+# (These stay on your machine; they just don't get pushed.)
+Route H English Essay Class_ Advanced Syllabus.pdf
+Lessons (1).pdf
+12DA0293-FB6C-46CF-83AC-508171B83631 (1)-Photoroom.png
+IMG_0577.jpg
+WhatsApp Image 2026-07-11 at 10.02.19.jpeg
+
+# Old standalone "Tournament Division Splitter" tool at the repo root — not part
+# of this website (the site is served from public/). Kept locally; remove this
+# line if you ever want to track it.
+/index.html

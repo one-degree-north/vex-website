@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programming - SAS VEX Robotics</title>
+  <meta name="description" content="Learn VEX robot programming.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111827'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">SAS<span>VEX</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cad.html">CAD</a></li>
+        <li><a href="mechanics.html">Mechanics</a></li>
+        <li><a href="programming.html">Programming</a></li>
+        <li><a href="competitions.html">Competitions</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth"></div>
+      <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/images/DSC_7759.JPG') center/cover no-repeat; color: white;">
+    <h1><span class="gradient-text" style="color: white;">Programming</span></h1>
+    <p style="color: rgba(255,255,255,0.9);">Learn to program VEX robots.</p>
+  </header>
+
+  <!-- Topics -->
+  <section class="section">
+    <div class="topics-container" id="programming-container">
+      <div class="loading"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>SAS VEX Robotics</h3>
+        <p></p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cad.html">CAD</a></li>
+          <li><a href="mechanics.html">Mechanics</a></li>
+          <li><a href="programming.html">Programming</a></li>
+          <li><a href="competitions.html">Competitions</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://www.vexrobotics.com" target="_blank">VEX Robotics</a></li>
+          <li><a href="https://www.robotevents.com" target="_blank">Robot Events</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 SAS VEX Robotics. Made by Dan Honda.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+  <script src="/js/content-loader.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      contentLoader.loadTopics('programming-container', 'programming.json');
+    });
+  </script>
+  <script type="module">
+    import { initAuthUI } from '/js/auth.js';
+    document.addEventListener('DOMContentLoaded', () => initAuthUI());
+  </script>
+  <script type="module" src="/js/lesson-list-progress.js"></script>
+</body>
+</html>

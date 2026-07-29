@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team List Generator - SAS VEX Robotics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111827'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
+    <style>
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #061A1C;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+            --border-color: #1E2C31;
+            --border-hover: #2d4048;
+            --shadow-sm: rgba(0,0,0,0.15) 0px 0px 0px 1px, rgba(255,255,255,0.03) 0px 1px 0px inset;
+            --shadow-md: rgba(0,0,0,0.15) 0px 0px 0px 1px, rgba(0,0,0,0.12) 0px 2px 2px, rgba(0,0,0,0.10) 0px 4px 4px, rgba(0,0,0,0.08) 0px 8px 8px, rgba(255,255,255,0.03) 0px 1px 0px inset;
+            --shadow-lg: rgba(0,0,0,0.35) 0px 25px 50px -12px;
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --transition-fast: 0.15s ease;
+            --transition-smooth: 0.3s ease;
+            --accent-1: #36F4A4;
+            --accent-2: #C1FBD4;
+            --accent-3: #A1A1AA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-primary);
+            font-family: var(--font-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.25rem 2rem;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .byline {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Input Section */
+        .input-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-section label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 0.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            color: var(--text-primary);
+            resize: vertical;
+            transition: var(--transition-fast);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--text-primary);
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+        }
+
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--text-primary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-primary {
+            color: var(--bg-primary);
+            background: var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            background: #374151;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn-success {
+            color: white;
+            background: var(--accent-1);
+        }
+
+        .btn-success:hover {
+            background: #3db8b0;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        /* Preview Table */
+        .preview-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .preview-section.visible {
+            display: block;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .team-count-badge {
+            background: var(--accent-1);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            min-width: 150px;
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--bg-secondary);
+        }
+
+        td input {
+            width: 100%;
+            padding: 0.4rem 0.5rem;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            background: transparent;
+            transition: var(--transition-fast);
+        }
+
+        td input:hover {
+            background: var(--bg-secondary);
+        }
+
+        td input:focus {
+            outline: none;
+            border-color: var(--accent-1);
+            background: white;
+        }
+
+        td select {
+            padding: 0.4rem 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            background: transparent;
+        }
+
+        td select:hover {
+            background: var(--bg-secondary);
+        }
+
+        td select:focus {
+            border-color: var(--accent-1);
+            background: white;
+        }
+
+        .row-number {
+            color: var(--text-muted);
+            font-weight: 500;
+            width: 50px;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: var(--transition-fast);
+        }
+
+        .delete-btn:hover {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        /* Info box */
+        .info-box {
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid var(--accent-1);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .info-box strong {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 6rem 1.25rem 3rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">SAS<span>VEX</span></a>
+            <a href="/competitions.html" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Tools
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <p class="byline">By Dan Honda</p>
+            <h1>Team List Generator</h1>
+            <p class="subtitle">Create CSV files for VEX Tournament Manager</p>
+        </header>
+
+        <div class="input-section">
+            <div class="info-box">
+                <strong>How to use:</strong> Enter team names/numbers below, set default options, then generate the list. You can edit individual team details in the preview table before exporting.
+            </div>
+
+            <label for="teams-input">Enter Team Numbers (one per line or comma-separated)</label>
+            <textarea id="teams-input" placeholder="Example:
+6546A
+6546B
+..."></textarea>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="default-grade">Default Grade Level</label>
+                    <select id="default-grade">
+                        <option value="HIGH_SCHOOL">High School</option>
+                        <option value="MIDDLE_SCHOOL">Middle School</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="default-division">Default Division</label>
+                    <select id="default-division">
+                        <option value="Division 1">Division 1</option>
+                        <option value="Division 2">Division 2</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="default-city">Default City (optional)</label>
+                    <input type="text" id="default-city" placeholder="e.g., Singapore">
+                </div>
+                <div class="input-group">
+                    <label for="default-country">Default Country (optional)</label>
+                    <input type="text" id="default-country" placeholder="e.g., Singapore">
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="generateList()">Generate Team List</button>
+            </div>
+        </div>
+
+        <div class="preview-section" id="preview-section">
+            <div class="preview-header">
+                <h2>Preview</h2>
+                <span class="team-count-badge" id="team-count">0 teams</span>
+            </div>
+
+            <div class="table-container">
+                <table id="preview-table">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Name</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Country</th>
+                            <th>School</th>
+                            <th>Grade</th>
+                            <th>Division</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="exportCSV()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7,10 12,15 17,10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Export CSV
+                </button>
+                <button class="btn btn-secondary" onclick="addRow()">+ Add Team</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 SAS VEX Robotics. Made by Dan Honda.</p>
+    </footer>
+
+    <script>
+        let teams = [];
+
+        function parseTeams(input) {
+            return input
+                .split(/[\n,]+/)
+                .map(t => t.trim())
+                .filter(t => t.length > 0);
+        }
+
+        function generateList() {
+            const input = document.getElementById('teams-input').value;
+            const teamNames = parseTeams(input);
+
+            if (teamNames.length === 0) {
+                alert('Please enter at least one team name.');
+                return;
+            }
+
+            const defaultGrade = document.getElementById('default-grade').value;
+            const defaultDivision = document.getElementById('default-division').value;
+            const defaultCity = document.getElementById('default-city').value;
+            const defaultCountry = document.getElementById('default-country').value;
+
+            teams = teamNames.map((teamNumber, index) => ({
+                number: teamNumber,
+                name: `Team ${index + 1}`,
+                city: defaultCity,
+                state: '',
+                country: defaultCountry,
+                shortName: '',
+                school: '',
+                sponsor: '',
+                grade: defaultGrade,
+                checkedIn: 'False',
+                division: defaultDivision
+            }));
+
+            renderTable();
+            document.getElementById('preview-section').classList.add('visible');
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+
+            tbody.innerHTML = teams.map((team, index) => `
+                <tr data-index="${index}">
+                    <td><input type="text" value="${escapeHtml(team.number)}" onchange="updateTeam(${index}, 'number', this.value)"></td>
+                    <td><input type="text" value="${escapeHtml(team.name)}" onchange="updateTeam(${index}, 'name', this.value)"></td>
+                    <td><input type="text" value="${escapeHtml(team.city)}" onchange="updateTeam(${index}, 'city', this.value)"></td>
+                    <td><input type="text" value="${escapeHtml(team.state)}" onchange="updateTeam(${index}, 'state', this.value)"></td>
+                    <td><input type="text" value="${escapeHtml(team.country)}" onchange="updateTeam(${index}, 'country', this.value)"></td>
+                    <td><input type="text" value="${escapeHtml(team.school)}" onchange="updateTeam(${index}, 'school', this.value)"></td>
+                    <td>
+                        <select onchange="updateTeam(${index}, 'grade', this.value)">
+                            <option value="HIGH_SCHOOL" ${team.grade === 'HIGH_SCHOOL' ? 'selected' : ''}>High School</option>
+                            <option value="MIDDLE_SCHOOL" ${team.grade === 'MIDDLE_SCHOOL' ? 'selected' : ''}>Middle School</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select onchange="updateTeam(${index}, 'division', this.value)">
+                            <option value="Division 1" ${team.division === 'Division 1' ? 'selected' : ''}>Division 1</option>
+                            <option value="Division 2" ${team.division === 'Division 2' ? 'selected' : ''}>Division 2</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteTeam(${index})" title="Delete team">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            document.getElementById('team-count').textContent = `${teams.length} team${teams.length !== 1 ? 's' : ''}`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function updateTeam(index, field, value) {
+            teams[index][field] = value;
+        }
+
+        function deleteTeam(index) {
+            teams.splice(index, 1);
+            renderTable();
+        }
+
+        function addRow() {
+            const defaultGrade = document.getElementById('default-grade').value;
+            const defaultDivision = document.getElementById('default-division').value;
+            const defaultCity = document.getElementById('default-city').value;
+            const defaultCountry = document.getElementById('default-country').value;
+
+            teams.push({
+                number: '',
+                name: `Team ${teams.length + 1}`,
+                city: defaultCity,
+                state: '',
+                country: defaultCountry,
+                shortName: '',
+                school: '',
+                sponsor: '',
+                grade: defaultGrade,
+                checkedIn: 'False',
+                division: defaultDivision
+            });
+
+            renderTable();
+
+            // Focus on the new row's name input
+            const tbody = document.getElementById('table-body');
+            const lastRow = tbody.lastElementChild;
+            if (lastRow) {
+                const nameInput = lastRow.querySelector('input');
+                if (nameInput) nameInput.focus();
+            }
+        }
+
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all teams?')) {
+                teams = [];
+                renderTable();
+                document.getElementById('preview-section').classList.remove('visible');
+            }
+        }
+
+        function exportCSV() {
+            if (teams.length === 0) {
+                alert('No teams to export.');
+                return;
+            }
+
+            // CSV header
+            const headers = ['Number', 'Name', 'City', 'State', 'Country', 'Short Name', 'School', 'Sponsor', 'Grade', 'Checked In', 'Division'];
+
+            // CSV rows
+            const rows = teams.map(team => [
+                team.number,
+                team.name,
+                team.city,
+                team.state,
+                team.country,
+                team.shortName,
+                team.school,
+                team.sponsor,
+                team.grade,
+                team.checkedIn,
+                team.division
+            ]);
+
+            // Build CSV content
+            let csvContent = headers.join(',') + '\n';
+            rows.forEach(row => {
+                // Escape fields that might contain commas
+                const escapedRow = row.map(field => {
+                    const str = String(field);
+                    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+                        return '"' + str.replace(/"/g, '""') + '"';
+                    }
+                    return str;
+                });
+                csvContent += escapedRow.join(',') + '\n';
+            });
+
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'teamlist.csv');
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
