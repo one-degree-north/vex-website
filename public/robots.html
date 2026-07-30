@@ -408,10 +408,13 @@
     controls.dampingFactor = 0.08;
     controls.enablePan = true;
     controls.minDistance = 3.5;
-    controls.maxDistance = 14;
+    controls.maxDistance = 18;
     controls.minPolarAngle = 0.15;
     controls.maxPolarAngle = Math.PI / 2 - 0.02;
     controls.update();
+
+    // Fixed 3/4 viewing direction used when framing each robot.
+    const VIEW_DIR = new THREE.Vector3(5.2, 1.25, 6.2).normalize();
 
     // ---- Model handling ----------------------------------------------------
     const loader = new GLTFLoader();
@@ -491,6 +494,18 @@
           current = wrapper;
           holder.add(wrapper);
           holder.position.set(dir * 6.5, -0.2, 0); // slide-in start
+
+          // Frame the whole robot: centre on its mid-height and pull the camera
+          // back far enough to fit it with margin, so it opens fully zoomed out
+          // rather than tight on the model.
+          const dims = size.clone().multiplyScalar(s);
+          const centerY = dims.y / 2;
+          const maxDim = Math.max(dims.x, dims.y, dims.z);
+          const fitDist = (maxDim / 2) / Math.tan((camera.fov * Math.PI) / 360) * 1.4;
+          controls.target.set(0, centerY, 0);
+          controls.maxDistance = Math.max(18, fitDist * 1.8);
+          camera.position.copy(controls.target).addScaledVector(VIEW_DIR, fitDist);
+          controls.update();
           loadingEl.classList.add('hidden');
         },
         (evt) => {
