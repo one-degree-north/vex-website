@@ -38,7 +38,7 @@
       pointer-events: none;
       z-index: 5;
     }
-    .sc-ui button, .sc-ui .sc-swatch { pointer-events: auto; }
+    .sc-ui button, .sc-ui .sc-swatch, .sc-ui .sc-award { pointer-events: auto; }
 
     /* Counter (top-right, clear of the fixed navbar) */
     .sc-counter {
@@ -60,21 +60,94 @@
       bottom: 2.75rem;
       max-width: 460px;
     }
-    .sc-tagline {
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      font-size: 0.72rem;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
     .sc-name {
       font-family: var(--font-display);
       font-weight: 600;
       font-size: clamp(2rem, 5vw, 3.25rem);
       line-height: 1;
       letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.6rem;
       color: #fff;
+    }
+    .sc-awards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+      max-width: 38rem;
+    }
+    .sc-award {
+      position: relative;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      padding: 0.34rem 0.8rem;
+      border: 1px solid var(--border-color);
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.01em;
+      color: var(--text-secondary);
+      background: rgba(6, 12, 12, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      white-space: nowrap;
+      cursor: default;
+      transition: border-color var(--transition-fast), color var(--transition-fast);
+    }
+    .sc-award:hover, .sc-award:focus-visible {
+      border-color: var(--accent);
+      color: var(--text-primary);
+      outline: none;
+    }
+    .sc-award .n {
+      color: var(--accent);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Where-won tooltip */
+    .sc-award-tip {
+      position: absolute;
+      bottom: calc(100% + 9px);
+      left: 0;
+      width: max-content;
+      max-width: 240px;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      background: rgba(6, 12, 12, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--border-hover);
+      box-shadow: var(--shadow-lg);
+      text-align: left;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity var(--transition-fast), transform var(--transition-fast);
+      z-index: 20;
+    }
+    .sc-award-tip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 1.75rem;
+      border: 6px solid transparent;
+      border-top-color: rgba(6, 12, 12, 0.94);
+    }
+    .sc-award-tip .ev {
+      display: block;
+      font-size: 0.82rem;
+      line-height: 1.35;
+      color: var(--text-primary);
+    }
+    .sc-award:hover .sc-award-tip,
+    .sc-award:focus-visible .sc-award-tip {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sc-award-tip { transition: opacity var(--transition-fast); transform: none; }
+      .sc-award:hover .sc-award-tip, .sc-award:focus-visible .sc-award-tip { transform: none; }
     }
     .sc-specs { display: flex; gap: 2rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
     .sc-spec { display: flex; flex-direction: column; gap: 0.35rem; }
@@ -186,8 +259,8 @@
       <div class="sc-counter"><span id="sc-index">01</span><em> / <span id="sc-total">02</span></em></div>
 
       <div class="sc-detail">
-        <p class="sc-tagline" id="sc-tagline"></p>
         <h1 class="sc-name" id="sc-name"></h1>
+        <div class="sc-awards" id="sc-awards"></div>
         <div class="sc-specs" id="sc-specs"></div>
         <div class="sc-paints" id="sc-paints"></div>
       </div>
@@ -255,15 +328,35 @@
     // ---- Robot lineup ------------------------------------------------------
     const ROBOTS = [
       {
-        name: '6546A Push Back',
-        tagline: 'Nationals competition robot',
+        name: 'Shinkaisen 31',
+        // `events` lists where each award was won; the count (e.g. 2×) is
+        // derived from how many events are listed. Replace the placeholder
+        // event names with the real ones.
+        awards: [
+          { name: 'Excellence Award', events: ['Singapore Spooky Robo Rumble'] },
+          { name: 'Think Award', events: ['Formosa'] },
+          { name: 'Tournament Champion', events: ['Singapore Spooky Robo Rumble'] },
+          { name: 'Tournament Finalist', events: ['Formosa', 'Singapore National Championships'] },
+        ],
         model: '/models/pushback_robot.opt.glb',
-        specs: { Platform: 'VEX V5', Class: 'Push Back', Status: 'Field-legal' },
+        specs: { Team: '6546A', Season: 'Push Back 25-26', 'Season Record': '—' },
         paints: [
           { name: 'Gold',       hex: '#c9a227', metalness: 0.8, roughness: 0.35 },
           { name: 'Aluminum',   hex: '#b7bcc2', metalness: 0.9, roughness: 0.3 },
           { name: 'Signal Red', hex: '#c02c38', metalness: 0.6, roughness: 0.4 },
           { name: 'Graphite',   hex: '#26282b', metalness: 0.4, roughness: 0.55 },
+        ],
+      },
+      {
+        name: 'Max',
+        awards: [],
+        model: '/models/max.opt.glb',
+        specs: { Team: '6546C', Season: 'Push Back 25-26', 'Season Record': '—' },
+        paints: [
+          { name: 'Aluminum',   hex: '#b7bcc2', metalness: 0.9, roughness: 0.3 },
+          { name: 'Graphite',   hex: '#26282b', metalness: 0.4, roughness: 0.55 },
+          { name: 'Signal Red', hex: '#c02c38', metalness: 0.6, roughness: 0.4 },
+          { name: 'Team Blue',  hex: '#1f6fe0', metalness: 0.6, roughness: 0.4 },
         ],
       },
     ];
@@ -437,8 +530,34 @@
     function updateOverlay() {
       const robot = ROBOTS[activeIndex];
       el('sc-index').textContent = String(activeIndex + 1).padStart(2, '0');
-      el('sc-tagline').textContent = robot.tagline;
       el('sc-name').textContent = robot.name;
+
+      const awards = el('sc-awards');
+      awards.innerHTML = '';
+      awards.style.display = (robot.awards && robot.awards.length) ? 'flex' : 'none';
+      (robot.awards || []).forEach((a) => {
+        const events = a.events || [];
+        const count = events.length || a.count || 1;
+        const tag = document.createElement('span');
+        tag.className = 'sc-award';
+        const tip = events.length
+          ? `<span class="sc-award-tip">${events
+              .map((e) => `<span class="ev">${e}</span>`)
+              .join('')}</span>`
+          : '';
+        tag.innerHTML =
+          (count > 1 ? `<span class="n">${count}×</span>` : '') +
+          `<span>${a.name}</span>` +
+          tip;
+        if (events.length) {
+          tag.tabIndex = 0;
+          tag.setAttribute(
+            'aria-label',
+            `${a.name}${count > 1 ? ` (${count} times)` : ''} — ${events.join(', ')}`
+          );
+        }
+        awards.appendChild(tag);
+      });
 
       const specs = el('sc-specs');
       specs.innerHTML = '';
