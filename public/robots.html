@@ -359,6 +359,21 @@
           { name: 'Team Blue',  hex: '#1f6fe0', metalness: 0.6, roughness: 0.4 },
         ],
       },
+      {
+        name: 'Master of Ragebait',
+        awards: [
+          { name: 'Energy Award', events: ['Singapore National Championships'] },
+        ],
+        model: '/models/ragebait.opt.glb',
+        rotation: { x: -90 }, // file exported with a sideways up-axis; stand it upright
+        specs: { Team: '6546H', Season: 'Push Back 25-26', 'Season Record': '—' },
+        paints: [
+          { name: 'Aluminum',   hex: '#b7bcc2', metalness: 0.9, roughness: 0.3 },
+          { name: 'Graphite',   hex: '#26282b', metalness: 0.4, roughness: 0.55 },
+          { name: 'Signal Red', hex: '#c02c38', metalness: 0.6, roughness: 0.4 },
+          { name: 'Team Blue',  hex: '#1f6fe0', metalness: 0.6, roughness: 0.4 },
+        ],
+      },
     ];
     const TARGET_LENGTH = 4.5;
 
@@ -408,10 +423,13 @@
     controls.dampingFactor = 0.08;
     controls.enablePan = true;
     controls.minDistance = 3.5;
-    controls.maxDistance = 14;
+    controls.maxDistance = 18;
     controls.minPolarAngle = 0.15;
     controls.maxPolarAngle = Math.PI / 2 - 0.02;
     controls.update();
+
+    // Fixed 3/4 viewing direction used when framing each robot.
+    const VIEW_DIR = new THREE.Vector3(5.2, 1.25, 6.2).normalize();
 
     // ---- Model handling ----------------------------------------------------
     const loader = new GLTFLoader();
@@ -474,6 +492,18 @@
           const root = gltf.scene;
           root.traverse((o) => { if (o.isMesh) o.frustumCulled = false; });
 
+          // Optional per-robot orientation fix. Some exports have a wrong
+          // up-axis / facing, so allow a rotation about any axis (degrees).
+          // `rotationDeg` (number) spins about Y for backwards compatibility;
+          // `rotation` ({x,y,z}) rotates about each axis. Applied before
+          // measuring so centring/framing account for it.
+          const d2r = (d) => ((d || 0) * Math.PI) / 180;
+          const r = robot.rotation || { y: robot.rotationDeg };
+          if (r.x || r.y || r.z) {
+            root.rotation.set(d2r(r.x), d2r(r.y), d2r(r.z));
+            root.updateMatrixWorld(true);
+          }
+
           // Normalise scale + ground the model, centred in x/z.
           const box = new THREE.Box3().setFromObject(root);
           const size = new THREE.Vector3();
@@ -491,6 +521,18 @@
           current = wrapper;
           holder.add(wrapper);
           holder.position.set(dir * 6.5, -0.2, 0); // slide-in start
+
+          // Frame the whole robot: centre on its mid-height and pull the camera
+          // back far enough to fit it with margin, so it opens fully zoomed out
+          // rather than tight on the model.
+          const dims = size.clone().multiplyScalar(s);
+          const centerY = dims.y / 2;
+          const maxDim = Math.max(dims.x, dims.y, dims.z);
+          const fitDist = (maxDim / 2) / Math.tan((camera.fov * Math.PI) / 360) * 1.4;
+          controls.target.set(0, centerY, 0);
+          controls.maxDistance = Math.max(18, fitDist * 1.8);
+          camera.position.copy(controls.target).addScaledVector(VIEW_DIR, fitDist);
+          controls.update();
           loadingEl.classList.add('hidden');
         },
         (evt) => {
