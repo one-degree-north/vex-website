@@ -72,6 +72,175 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111827'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
+
+  <style>
+    /* ===== Robot showcase (embedded on the home page) ===== */
+    .showcase-section { padding: 0 0 4rem; }
+    .showcase-heading { text-align: center; padding: 2rem 1.5rem 2.5rem; }
+    .showcase-stage {
+      position: relative;
+      width: 100%;
+      height: 82vh;
+      min-height: 540px;
+      background: #000;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+    .showcase-stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+
+    /* Overlay layer — lets pointer events fall through to the canvas,
+       except on the actual controls. */
+    .sc-ui { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+    .sc-ui button, .sc-ui .sc-swatch, .sc-ui .sc-award { pointer-events: auto; }
+
+    .sc-counter {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      font-family: var(--font-display);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.1em;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+    .sc-counter em { color: var(--text-muted); font-style: normal; }
+
+    .sc-detail { position: absolute; left: 2.5rem; bottom: 2.75rem; max-width: 460px; }
+    .sc-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+      color: #fff;
+    }
+    .sc-awards { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.75rem; max-width: 38rem; }
+    .sc-award {
+      position: relative;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      padding: 0.34rem 0.8rem;
+      border: 1px solid var(--border-color);
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.01em;
+      color: var(--text-secondary);
+      background: rgba(6, 12, 12, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      white-space: nowrap;
+      cursor: default;
+      transition: border-color var(--transition-fast), color var(--transition-fast);
+    }
+    .sc-award:hover, .sc-award:focus-visible { border-color: var(--accent); color: var(--text-primary); outline: none; }
+    .sc-award .n { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .sc-award-tip {
+      position: absolute;
+      bottom: calc(100% + 9px);
+      left: 0;
+      width: max-content;
+      max-width: 240px;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      background: rgba(6, 12, 12, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--border-hover);
+      box-shadow: var(--shadow-lg);
+      text-align: left;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity var(--transition-fast), transform var(--transition-fast);
+      z-index: 20;
+    }
+    .sc-award-tip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 1.75rem;
+      border: 6px solid transparent;
+      border-top-color: rgba(6, 12, 12, 0.94);
+    }
+    .sc-award-tip .ev { display: block; font-size: 0.82rem; line-height: 1.35; color: var(--text-primary); }
+    .sc-award:hover .sc-award-tip, .sc-award:focus-visible .sc-award-tip { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .sc-award-tip { transition: opacity var(--transition-fast); transform: none; }
+      .sc-award:hover .sc-award-tip, .sc-award:focus-visible .sc-award-tip { transform: none; }
+    }
+    .sc-specs { display: flex; gap: 2rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+    .sc-spec { display: flex; flex-direction: column; gap: 0.35rem; }
+    .sc-spec-value { font-family: var(--font-display); font-size: 1.35rem; color: #fff; }
+    .sc-spec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+
+    .sc-paints { display: flex; align-items: center; gap: 0.75rem; }
+    .sc-swatch {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 1px solid var(--border-color);
+      cursor: pointer; padding: 0; background: none;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .sc-swatch:hover { transform: scale(1.12); }
+    .sc-swatch.active { box-shadow: 0 0 0 2px #000, 0 0 0 3px var(--accent); }
+    .sc-paint-name { margin-left: 0.4rem; font-size: 0.8rem; letter-spacing: 0.06em; color: var(--text-secondary); }
+
+    .sc-nav { position: absolute; right: 2rem; bottom: 2.75rem; display: flex; gap: 0.75rem; }
+    .sc-nav button {
+      width: 46px; height: 46px; border-radius: 9999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
+      color: #fff; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+    }
+    .sc-nav button:hover { background: rgba(54,244,164,0.14); border-color: var(--accent); }
+
+    .sc-hint {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .sc-loading {
+      position: absolute; inset: 0; z-index: 8;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1rem; background: #000; color: var(--text-secondary);
+      font-family: var(--font-display); letter-spacing: 0.05em;
+      transition: opacity 0.4s ease;
+    }
+    .sc-loading.hidden { opacity: 0; pointer-events: none; }
+    .sc-spinner {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 3px solid var(--border-color); border-top-color: var(--accent);
+      animation: sc-spin 0.9s linear infinite;
+    }
+    @keyframes sc-spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 640px) {
+      .showcase-stage { height: 78vh; }
+      .sc-detail { left: 1.25rem; right: 1.25rem; bottom: 6rem; max-width: none; }
+      .sc-nav { bottom: 1.75rem; }
+      .sc-hint { display: none; }
+      .sc-counter { top: 1.25rem; right: 1.25rem; }
+    }
+  </style>
+
+  <!-- Three.js (ES modules, no build step — same CDN approach as the rest of the site) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
   <!-- Navigation -->
@@ -85,7 +254,6 @@
         <li><a href="mechanics.html">Mechanics</a></li>
         <li><a href="programming.html">Programming</a></li>
         <li><a href="competitions.html">Competitions</a></li>
-        <li><a href="robots.html">Robots</a></li>
       </ul>
       <div class="nav-auth" id="nav-auth"></div>
       <div class="nav-toggle">
@@ -117,16 +285,12 @@
         <div class="stat-label">Competition Teams</div>
       </div>
       <div class="stat-item animate">
-        <div class="stat-number">4</div>
-        <div class="stat-label">Competitions this year</div>
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Scrimmages + Tournaments</div>
       </div>
       <div class="stat-item animate">
         <div class="stat-number">40+</div>
         <div class="stat-label">Members</div>
-      </div>
-      <div class="stat-item animate">
-        <div class="stat-number">∞</div>
-        <div class="stat-label">Possibilities</div>
       </div>
     </div>
   </section>
@@ -154,6 +318,39 @@
     </div>
   </section>
 
+  <!-- Robots Showcase -->
+  <section class="showcase-section" id="robots">
+    <div class="showcase-heading">
+      <span class="hero-badge">Our Machines</span>
+      <h2 class="founders-title">Our Robots</h2>
+      <p class="founders-sub">The robots our teams compete with — drag to spin them around and check them out.</p>
+    </div>
+    <div class="showcase-stage" id="showcase-stage">
+      <div class="sc-ui">
+        <div class="sc-counter"><span id="sc-index">01</span><em> / <span id="sc-total">02</span></em></div>
+
+        <div class="sc-detail">
+          <h3 class="sc-name" id="sc-name"></h3>
+          <div class="sc-awards" id="sc-awards"></div>
+          <div class="sc-specs" id="sc-specs"></div>
+          <div class="sc-paints" id="sc-paints"></div>
+        </div>
+
+        <div class="sc-nav">
+          <button id="sc-prev" aria-label="Previous robot">&larr;</button>
+          <button id="sc-next" aria-label="Next robot">&rarr;</button>
+        </div>
+
+        <div class="sc-hint">Drag to rotate &middot; use &larr; &rarr; to browse robots</div>
+      </div>
+
+      <div class="sc-loading" id="sc-loading">
+        <div class="sc-spinner"></div>
+        <div id="sc-loading-text">Loading robot…</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">
@@ -169,7 +366,6 @@
           <li><a href="mechanics.html">Mechanics</a></li>
           <li><a href="programming.html">Programming</a></li>
           <li><a href="competitions.html">Competitions</a></li>
-          <li><a href="robots.html">Robots</a></li>
         </ul>
       </div>
       <div class="footer-links">
@@ -191,6 +387,352 @@
   <script type="module">
     import { initAuthUI } from '/js/auth.js';
     document.addEventListener('DOMContentLoaded', () => initAuthUI());
+  </script>
+
+  <!-- Robot showcase -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+    import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+
+    // ---- Robot lineup ------------------------------------------------------
+    const ROBOTS = [
+      {
+        name: 'Shinkaisen 31',
+        // `events` lists where each award was won; the count (e.g. 2×) is
+        // derived from how many events are listed. Replace the placeholder
+        // event names with the real ones.
+        awards: [
+          { name: 'Excellence Award', events: ['Singapore Spooky Robo Rumble'] },
+          { name: 'Think Award', events: ['Formosa'] },
+          { name: 'Tournament Champion', events: ['Singapore Spooky Robo Rumble'] },
+          { name: 'Tournament Finalist', events: ['Formosa', 'Singapore National Championships'] },
+        ],
+        model: '/models/pushback_robot.opt.glb',
+        specs: { Team: '6546A', Season: 'Push Back 25-26', 'Season Record': '—' },
+        paints: [
+          { name: 'Gold',       hex: '#c9a227', metalness: 0.8, roughness: 0.35 },
+          { name: 'Aluminum',   hex: '#b7bcc2', metalness: 0.9, roughness: 0.3 },
+          { name: 'Signal Red', hex: '#c02c38', metalness: 0.6, roughness: 0.4 },
+          { name: 'Graphite',   hex: '#26282b', metalness: 0.4, roughness: 0.55 },
+        ],
+      },
+      {
+        name: 'Max',
+        awards: [],
+        model: '/models/max.opt.glb',
+        specs: { Team: '6546C', Season: 'Push Back 25-26', 'Season Record': '—' },
+        paints: [
+          { name: 'Aluminum',   hex: '#b7bcc2', metalness: 0.9, roughness: 0.3 },
+          { name: 'Graphite',   hex: '#26282b', metalness: 0.4, roughness: 0.55 },
+          { name: 'Signal Red', hex: '#c02c38', metalness: 0.6, roughness: 0.4 },
+          { name: 'Team Blue',  hex: '#1f6fe0', metalness: 0.6, roughness: 0.4 },
+        ],
+      },
+      {
+        name: 'Master of Ragebait',
+        awards: [
+          { name: 'Energy Award', events: ['Singapore National Championships'] },
+        ],
+        model: '/models/ragebait.opt.glb',
+        rotation: { x: -90 }, // file exported with a sideways up-axis; stand it upright
+        specs: { Team: '6546H', Season: 'Push Back 25-26', 'Season Record': '—' },
+        paints: [
+          { name: 'Aluminum',   hex: '#b7bcc2', metalness: 0.9, roughness: 0.3 },
+          { name: 'Graphite',   hex: '#26282b', metalness: 0.4, roughness: 0.55 },
+          { name: 'Signal Red', hex: '#c02c38', metalness: 0.6, roughness: 0.4 },
+          { name: 'Team Blue',  hex: '#1f6fe0', metalness: 0.6, roughness: 0.4 },
+        ],
+      },
+    ];
+    const TARGET_LENGTH = 4.5;
+
+    // ---- Scene setup -------------------------------------------------------
+    const stage = document.getElementById('showcase-stage');
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(stage.clientWidth, stage.clientHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    stage.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#000000');
+    scene.fog = new THREE.Fog('#000000', 20, 48);
+
+    // Studio-ish reflections from a procedural room (no external HDRI needed).
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    if ('environmentIntensity' in scene) scene.environmentIntensity = 0.85;
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+    const key = new THREE.SpotLight(0xffffff, 70, 0, 0.4, 0.9);
+    key.position.set(6, 8, 6);
+    scene.add(key);
+    const fill = new THREE.SpotLight(0xffffff, 30, 0, 0.5, 1);
+    fill.position.set(-8, 5, -4);
+    scene.add(fill);
+    const warm = new THREE.SpotLight(0xfff2e0, 24, 0, 0.6, 1);
+    warm.position.set(0, 3, -8);
+    scene.add(warm);
+
+    // Dark matte floor (no shadows).
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(60, 60),
+      new THREE.MeshStandardMaterial({ color: '#0d0d0d', metalness: 0, roughness: 0.9 })
+    );
+    floor.rotation.x = -Math.PI / 2;
+    scene.add(floor);
+
+    const camera = new THREE.PerspectiveCamera(40, stage.clientWidth / stage.clientHeight, 0.1, 200);
+    camera.position.set(5.2, 1.8, 6.2);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0.55, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enablePan = false;
+    // Embedded mid-page: don't capture the mouse wheel, so scrolling past the
+    // showcase scrolls the page instead of getting trapped zooming the model.
+    controls.enableZoom = false;
+    controls.minDistance = 3.5;
+    controls.maxDistance = 18;
+    controls.minPolarAngle = 0.15;
+    controls.maxPolarAngle = Math.PI / 2 - 0.02;
+    controls.update();
+
+    // Fixed 3/4 viewing direction used when framing each robot.
+    const VIEW_DIR = new THREE.Vector3(5.2, 1.25, 6.2).normalize();
+
+    // ---- Model handling ----------------------------------------------------
+    const loader = new GLTFLoader();
+    loader.setMeshoptDecoder(MeshoptDecoder); // models are Meshopt-compressed
+    const holder = new THREE.Group(); // slides in on swap
+    scene.add(holder);
+    let current = null;          // { root } currently displayed
+    let activeIndex = 0;
+    let paintByRobot = {};       // index -> paint index
+    let loadToken = 0;           // guards against out-of-order async loads
+
+    const loadingEl = document.getElementById('sc-loading');
+    const loadingText = document.getElementById('sc-loading-text');
+
+    function disposeModel(obj) {
+      obj.traverse((o) => {
+        if (o.isMesh) {
+          o.geometry?.dispose?.();
+          const mats = Array.isArray(o.material) ? o.material : [o.material];
+          mats.forEach((m) => m?.dispose?.());
+        }
+      });
+    }
+
+    function applyPaint(root, paint) {
+      root.traverse((obj) => {
+        if (!obj.isMesh) return;
+        const matName = (obj.material && obj.material.name ? obj.material.name : '').toLowerCase();
+        const hit = matName.includes('body') || (obj.name || '').toLowerCase().includes('body');
+        if (hit) {
+          obj.material = new THREE.MeshPhysicalMaterial({
+            color: new THREE.Color(paint.hex),
+            metalness: paint.metalness ?? 0.9,
+            roughness: paint.roughness ?? 0.25,
+            clearcoat: 1,
+            clearcoatRoughness: 0.08,
+            envMapIntensity: 1.3,
+          });
+        }
+      });
+    }
+
+    function showRobot(index, dir = 1) {
+      activeIndex = (index + ROBOTS.length) % ROBOTS.length;
+      const robot = ROBOTS[activeIndex];
+      const token = ++loadToken;
+
+      updateOverlay();
+      loadingEl.classList.remove('hidden');
+      loadingText.textContent = 'Loading robot…';
+
+      loader.load(
+        robot.model,
+        (gltf) => {
+          if (token !== loadToken) { disposeModel(gltf.scene); return; } // superseded
+
+          // Clear previous model.
+          if (current) { holder.remove(current); disposeModel(current); current = null; }
+
+          const root = gltf.scene;
+          root.traverse((o) => { if (o.isMesh) o.frustumCulled = false; });
+
+          // Optional per-robot orientation fix. Some exports have a wrong
+          // up-axis / facing, so allow a rotation about any axis (degrees).
+          const d2r = (d) => ((d || 0) * Math.PI) / 180;
+          const r = robot.rotation || { y: robot.rotationDeg };
+          if (r.x || r.y || r.z) {
+            root.rotation.set(d2r(r.x), d2r(r.y), d2r(r.z));
+            root.updateMatrixWorld(true);
+          }
+
+          // Normalise scale + ground the model, centred in x/z.
+          const box = new THREE.Box3().setFromObject(root);
+          const size = new THREE.Vector3();
+          const center = new THREE.Vector3();
+          box.getSize(size);
+          box.getCenter(center);
+          const s = TARGET_LENGTH / Math.max(size.x, size.z);
+          const wrapper = new THREE.Group();
+          wrapper.add(root);
+          wrapper.scale.setScalar(s);
+          wrapper.position.set(-center.x * s, -box.min.y * s, -center.z * s);
+
+          applyPaint(wrapper, robot.paints[paintByRobot[activeIndex] ?? 0]);
+
+          current = wrapper;
+          holder.add(wrapper);
+          holder.position.set(dir * 6.5, -0.2, 0); // slide-in start
+
+          // Frame the whole robot: centre on its mid-height and pull the camera
+          // back far enough to fit it with margin.
+          const dims = size.clone().multiplyScalar(s);
+          const centerY = dims.y / 2;
+          const maxDim = Math.max(dims.x, dims.y, dims.z);
+          const fitDist = (maxDim / 2) / Math.tan((camera.fov * Math.PI) / 360) * 1.4;
+          controls.target.set(0, centerY, 0);
+          controls.maxDistance = Math.max(18, fitDist * 1.8);
+          camera.position.copy(controls.target).addScaledVector(VIEW_DIR, fitDist);
+          controls.update();
+          loadingEl.classList.add('hidden');
+        },
+        (evt) => {
+          if (token !== loadToken) return;
+          if (evt.total) {
+            const pct = Math.min(100, Math.round((evt.loaded / evt.total) * 100));
+            loadingText.textContent = `Loading robot… ${pct}%`;
+          } else {
+            loadingText.textContent = `Loading robot… ${(evt.loaded / 1e6).toFixed(0)} MB`;
+          }
+        },
+        (err) => {
+          if (token !== loadToken) return;
+          console.error('Failed to load', robot.model, err);
+          loadingText.textContent = 'Could not load this robot.';
+        }
+      );
+    }
+
+    function recolorCurrent() {
+      if (!current) return;
+      applyPaint(current, ROBOTS[activeIndex].paints[paintByRobot[activeIndex] ?? 0]);
+    }
+
+    // ---- Overlay UI --------------------------------------------------------
+    const el = (id) => document.getElementById(id);
+    el('sc-total').textContent = String(ROBOTS.length).padStart(2, '0');
+
+    // With a single robot there's nothing to browse — hide the counter, arrows
+    // and browse hint.
+    if (ROBOTS.length <= 1) {
+      document.querySelector('.sc-counter').style.display = 'none';
+      document.querySelector('.sc-nav').style.display = 'none';
+      document.querySelector('.sc-hint').textContent = 'Drag to rotate · scroll to zoom';
+    }
+
+    function updateOverlay() {
+      const robot = ROBOTS[activeIndex];
+      el('sc-index').textContent = String(activeIndex + 1).padStart(2, '0');
+      el('sc-name').textContent = robot.name;
+
+      const awards = el('sc-awards');
+      awards.innerHTML = '';
+      awards.style.display = (robot.awards && robot.awards.length) ? 'flex' : 'none';
+      (robot.awards || []).forEach((a) => {
+        const events = a.events || [];
+        const count = events.length || a.count || 1;
+        const tag = document.createElement('span');
+        tag.className = 'sc-award';
+        const tip = events.length
+          ? `<span class="sc-award-tip">${events
+              .map((e) => `<span class="ev">${e}</span>`)
+              .join('')}</span>`
+          : '';
+        tag.innerHTML =
+          (count > 1 ? `<span class="n">${count}×</span>` : '') +
+          `<span>${a.name}</span>` +
+          tip;
+        if (events.length) {
+          tag.tabIndex = 0;
+          tag.setAttribute(
+            'aria-label',
+            `${a.name}${count > 1 ? ` (${count} times)` : ''} — ${events.join(', ')}`
+          );
+        }
+        awards.appendChild(tag);
+      });
+
+      const specs = el('sc-specs');
+      specs.innerHTML = '';
+      for (const [label, value] of Object.entries(robot.specs)) {
+        const wrap = document.createElement('div');
+        wrap.className = 'sc-spec';
+        wrap.innerHTML = `<span class="sc-spec-value">${value}</span><span class="sc-spec-label">${label}</span>`;
+        specs.appendChild(wrap);
+      }
+
+      const paintIndex = paintByRobot[activeIndex] ?? 0;
+      const paints = el('sc-paints');
+      paints.innerHTML = '';
+      robot.paints.forEach((p, i) => {
+        const b = document.createElement('button');
+        b.className = 'sc-swatch' + (i === paintIndex ? ' active' : '');
+        b.style.background = p.hex;
+        b.title = p.name;
+        b.setAttribute('aria-label', p.name);
+        b.addEventListener('click', () => {
+          paintByRobot[activeIndex] = i;
+          updateOverlay();
+          recolorCurrent();
+        });
+        paints.appendChild(b);
+      });
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'sc-paint-name';
+      nameSpan.textContent = robot.paints[paintIndex].name;
+      paints.appendChild(nameSpan);
+    }
+
+    // ---- Browsing ----------------------------------------------------------
+    let cooldown = false;
+    function go(dir) {
+      if (cooldown) return;
+      cooldown = true;
+      showRobot(activeIndex + dir, dir);
+      setTimeout(() => (cooldown = false), 650);
+    }
+    el('sc-next').addEventListener('click', () => go(1));
+    el('sc-prev').addEventListener('click', () => go(-1));
+
+    // ---- Resize + render loop ---------------------------------------------
+    function resize() {
+      const w = stage.clientWidth, h = stage.clientHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resize);
+
+    renderer.setAnimationLoop(() => {
+      // Ease the freshly-loaded model into the centre.
+      holder.position.x += (0 - holder.position.x) * 0.12;
+      holder.position.y += (0 - holder.position.y) * 0.12;
+      controls.update();
+      renderer.render(scene, camera);
+    });
+
+    // Kick things off.
+    showRobot(0, 1);
   </script>
 </body>
 </html>
