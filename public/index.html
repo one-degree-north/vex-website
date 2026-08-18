@@ -74,8 +74,40 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111827'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
 
   <style>
+    /* Smooth-scroll for the in-page "see our robots" jump. */
+    html { scroll-behavior: smooth; }
+
+    /* Hero mission → clickable jump down to the robot showcase. */
+    .hero-mission-link {
+      display: inline-block;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    .hero-mission-link .hero-mission { transition: color var(--transition-fast); }
+    .hero-mission-link:hover .hero-mission,
+    .hero-mission-link:focus-visible .hero-mission { color: #fff; }
+    .hero-scroll-cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+    .hero-scroll-cue .chev {
+      display: inline-block;
+      animation: hero-bounce 1.6s ease-in-out infinite;
+    }
+    @keyframes hero-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+    @media (prefers-reduced-motion: reduce) { .hero-scroll-cue .chev { animation: none; } }
+
     /* ===== Robot showcase (embedded on the home page) ===== */
     .showcase-section { padding: 0 0 4rem; }
+    #robots { scroll-margin-top: 84px; } /* clear the fixed navbar when jumped to */
     .showcase-heading { text-align: center; padding: 2rem 1.5rem 2.5rem; }
     .showcase-stage {
       position: relative;
@@ -270,7 +302,10 @@
       <span class="hero-badge">VEX Robotics Competition</span>
       <h1>Building the <span class="gradient-text">Future</span></h1>
       <p class="hero-tagline">We are SAS VEX Robotics.</p>
-      <p class="hero-mission">We're a student robotics team, and we made this site to teach the things we struggled to figure out ourselves: CAD, coding, and how to actually win competitions. It's all free.</p>
+      <a href="#robots" class="hero-mission-link">
+        <p class="hero-mission">We're a student robotics team, and we made this site to teach the things we struggled to figure out ourselves: CAD, coding, and how to actually win competitions. It's all free.</p>
+        <span class="hero-scroll-cue">See our robots <span class="chev">↓</span></span>
+      </a>
       <div class="hero-actions">
         <a href="https://forms.gle/uJfFo9RgC3ykt1XQA" target="_blank" rel="noopener" class="btn btn-secondary">💬 Give us feedback</a>
       </div>
