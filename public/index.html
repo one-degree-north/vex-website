@@ -20,8 +20,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="/css/style.css">
@@ -71,44 +70,18 @@
   </script>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23111827'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='8' fill='%230F1113'/><rect x='0' y='88' width='100' height='12' fill='%233DDC97'/><text x='50' y='68' font-family='Arial' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>SV</text></svg>">
 
   <style>
-    /* Smooth-scroll for the in-page "see our robots" jump. */
-    html { scroll-behavior: smooth; }
-
-    /* Hero mission → clickable jump down to the robot showcase. */
-    .hero-mission-link {
-      display: inline-block;
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-    }
-    .hero-mission-link .hero-mission { transition: color var(--transition-fast); }
-    .hero-mission-link:hover .hero-mission,
-    .hero-mission-link:focus-visible .hero-mission { color: #fff; }
-    .hero-scroll-cue {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-top: 1rem;
-      font-family: var(--font-display);
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      font-size: 0.95rem;
-      color: var(--accent);
-    }
-    .hero-scroll-cue .chev {
-      display: inline-block;
-      animation: hero-bounce 1.6s ease-in-out infinite;
-    }
-    @keyframes hero-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
-    @media (prefers-reduced-motion: reduce) { .hero-scroll-cue .chev { animation: none; } }
-
     /* ===== Robot showcase (embedded on the home page) ===== */
-    .showcase-section { padding: 0 0 4rem; }
-    #robots { scroll-margin-top: 84px; } /* clear the fixed navbar when jumped to */
-    .showcase-heading { text-align: center; padding: 2rem 1.5rem 2.5rem; }
+    .showcase-section { padding: 0 0 var(--space-10); }
+    #robots { scroll-margin-top: 64px; } /* clear the fixed navbar when jumped to */
+    .showcase-heading {
+      text-align: left;
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: var(--space-10) var(--gutter) var(--space-5);
+    }
     .showcase-stage {
       position: relative;
       width: 100%;
@@ -116,7 +89,9 @@
       min-height: 540px;
       background: #000;
       overflow: hidden;
-      border-radius: 18px;
+      border-radius: 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
     }
     .showcase-stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 
@@ -129,11 +104,11 @@
       position: absolute;
       top: 1.5rem;
       right: 2rem;
-      font-family: var(--font-display);
+      font-family: var(--font-mono);
       font-variant-numeric: tabular-nums;
-      letter-spacing: 0.1em;
-      font-size: 0.95rem;
-      color: var(--text-primary);
+      letter-spacing: 0.14em;
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
     }
     .sc-counter em { color: var(--text-muted); font-style: normal; }
 
@@ -141,10 +116,10 @@
     .sc-name {
       font-family: var(--font-display);
       font-weight: 600;
-      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-size: clamp(1.75rem, 4.5vw, 2.75rem);
       line-height: 1;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.6rem;
+      letter-spacing: -0.04em;
+      margin-bottom: var(--space-2);
       color: #fff;
     }
     .sc-awards { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.75rem; max-width: 38rem; }
@@ -153,11 +128,13 @@
       display: inline-flex;
       align-items: baseline;
       gap: 0.4rem;
-      padding: 0.34rem 0.8rem;
-      border: 1px solid var(--border-color);
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      letter-spacing: 0.01em;
+      padding: 0.26rem 0.6rem;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--text-secondary);
       background: rgba(6, 12, 12, 0.55);
       backdrop-filter: blur(6px);
@@ -176,8 +153,8 @@
       width: max-content;
       max-width: 240px;
       padding: 0.55rem 0.75rem;
-      border-radius: 10px;
-      background: rgba(6, 12, 12, 0.94);
+      border-radius: var(--radius);
+      background: rgba(10, 12, 13, 0.96);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 1px solid var(--border-hover);
@@ -205,37 +182,38 @@
     }
     .sc-specs { display: flex; gap: 2rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
     .sc-spec { display: flex; flex-direction: column; gap: 0.35rem; }
-    .sc-spec-value { font-family: var(--font-display); font-size: 1.35rem; color: #fff; }
-    .sc-spec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .sc-spec-value { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; letter-spacing: -0.03em; color: #fff; }
+    .sc-spec-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
 
     .sc-paints { display: flex; align-items: center; gap: 0.75rem; }
     .sc-swatch {
-      width: 26px; height: 26px; border-radius: 50%;
+      width: 22px; height: 22px; border-radius: var(--radius-sm);
       border: 1px solid var(--border-color);
       cursor: pointer; padding: 0; background: none;
       transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     }
     .sc-swatch:hover { transform: scale(1.12); }
-    .sc-swatch.active { box-shadow: 0 0 0 2px #000, 0 0 0 3px var(--accent); }
-    .sc-paint-name { margin-left: 0.4rem; font-size: 0.8rem; letter-spacing: 0.06em; color: var(--text-secondary); }
+    .sc-swatch.active { box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--accent); }
+    .sc-paint-name { margin-left: 0.4rem; font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); }
 
     .sc-nav { position: absolute; right: 2rem; bottom: 2.75rem; display: flex; gap: 0.75rem; }
     .sc-nav button {
-      width: 46px; height: 46px; border-radius: 9999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border-color);
+      width: 42px; height: 42px; border-radius: var(--radius);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-strong);
       color: #fff; font-size: 1.1rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: background var(--transition-fast), border-color var(--transition-fast);
     }
-    .sc-nav button:hover { background: rgba(54,244,164,0.14); border-color: var(--accent); }
+    .sc-nav button:hover { background: var(--accent-wash); border-color: var(--accent); color: var(--accent); }
 
     .sc-hint {
       position: absolute;
       bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs); letter-spacing: 0.16em; text-transform: uppercase;
       color: var(--text-muted);
       white-space: nowrap;
     }
@@ -243,14 +221,15 @@
     .sc-loading {
       position: absolute; inset: 0; z-index: 8;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 1rem; background: #000; color: var(--text-secondary);
-      font-family: var(--font-display); letter-spacing: 0.05em;
+      gap: var(--space-2); background: #000; color: var(--text-muted);
+      font-family: var(--font-mono); font-size: var(--text-xs);
+      letter-spacing: 0.14em; text-transform: uppercase;
       transition: opacity 0.4s ease;
     }
     .sc-loading.hidden { opacity: 0; pointer-events: none; }
     .sc-spinner {
-      width: 42px; height: 42px; border-radius: 50%;
-      border: 3px solid var(--border-color); border-top-color: var(--accent);
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 2px solid var(--border-strong); border-top-color: var(--accent);
       animation: sc-spin 0.9s linear infinite;
     }
     @keyframes sc-spin { to { transform: rotate(360deg); } }
@@ -297,19 +276,19 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero" style="background: linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.62)), url('/images/background.JPG') center/cover no-repeat;">
+  <section class="hero" style="background: linear-gradient(90deg, rgba(15,17,19,0.94) 0%, rgba(15,17,19,0.80) 45%, rgba(15,17,19,0.55) 100%), url('/images/background.JPG') center/cover no-repeat;">
     <div class="hero-content">
-      <span class="hero-badge">VEX Robotics Competition</span>
-      <h1>Building the <span class="gradient-text">Future</span></h1>
-      <p class="hero-tagline">We are SAS VEX Robotics.</p>
+      <span class="hero-badge">Singapore American School &middot; VRC Team 6546</span>
+      <h1>Building the Future</h1>
       <a href="#robots" class="hero-mission-link">
         <p class="hero-mission">We're a student robotics team, and we made this site to teach the things we struggled to figure out ourselves: CAD, coding, and how to actually win competitions. It's all free.</p>
-        <span class="hero-scroll-cue">See our robots <span class="chev">↓</span></span>
+        <span class="hero-scroll-cue">See our robots <span class="chev">&darr;</span></span>
       </a>
       <div class="hero-actions">
-        <a href="https://forms.gle/uJfFo9RgC3ykt1XQA" target="_blank" rel="noopener" class="btn btn-secondary">💬 Give us feedback</a>
+        <a href="cad.html" class="btn btn-primary">Start with CAD</a>
+        <a href="https://forms.gle/uJfFo9RgC3ykt1XQA" target="_blank" rel="noopener" class="btn btn-secondary">Give feedback</a>
       </div>
-          </div>
+    </div>
   </section>
 
   <!-- Stats Section -->
@@ -333,7 +312,7 @@
   <!-- Founders Section -->
   <section class="section founders-section">
     <div class="founders-inner">
-      <span class="hero-badge">Meet the Team</span>
+      <span class="hero-badge">01 &mdash; Meet the Team</span>
       <h2 class="founders-title">Founders</h2>
       <p class="founders-sub">The students who started SAS VEX Robotics and built this site.</p>
       <div class="founders-grid">
@@ -356,7 +335,7 @@
   <!-- Robots Showcase -->
   <section class="showcase-section" id="robots">
     <div class="showcase-heading">
-      <span class="hero-badge">Our Machines</span>
+      <span class="hero-badge">02 &mdash; Our Machines</span>
       <h2 class="founders-title">Our Robots</h2>
       <p class="founders-sub">The robots our teams compete with — drag to spin them around and check them out.</p>
     </div>
